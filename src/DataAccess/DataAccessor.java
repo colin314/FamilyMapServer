@@ -64,4 +64,17 @@ public class DataAccessor {
         throw new UnsupportedOperationException("This has not been implemented yet");
     }
 
+    /**
+     * Runs this query: SELECT * FROM AuthTokens WHERE Token = @authToken; Where @authToken
+     * is the token passed into the function.
+     * @param authToken The authorization token
+     * @return An AuthTokenDao object that corresponds to the given authorization token
+     * @exception InternalError if the provided authToken corresponds to more than one record.
+     * @exception InternalError if the provided authToken doesn't correspond to any records.
+     */
+    public AuthTokenDao GetUserByToken(String authToken) {
+        throw new UnsupportedOperationException("This has not been implemented yet");
+    }
+
+
 }
