@@ -1,4 +1,4 @@
-package Requests;
+package Request;
 
 /**
  * Request for user to log in.

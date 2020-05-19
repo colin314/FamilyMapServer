@@ -1,6 +1,6 @@
-package Response;
+package Result;
 
-import DataModels.Person;
+import Model.Person;
 import java.util.ArrayList;
 import java.util.List;
 

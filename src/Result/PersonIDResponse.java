@@ -1,6 +1,6 @@
-package Response;
+package Result;
 
-import DataModels.Person;
+import Model.Person;
 
 public class PersonIDResponse extends Person{
     public PersonIDResponse(Person person) {

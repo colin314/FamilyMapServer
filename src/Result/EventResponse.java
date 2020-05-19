@@ -1,6 +1,6 @@
-package Response;
+package Result;
 
-import DataModels.Event;
+import Model.Event;
 import java.util.ArrayList;
 import java.util.List;
 

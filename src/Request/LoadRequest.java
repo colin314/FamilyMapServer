@@ -1,8 +1,8 @@
-package Requests;
+package Request;
 
-import DataModels.User;
-import DataModels.Event;
-import DataModels.Person;
+import Model.User;
+import Model.Event;
+import Model.Person;
 
 /**
  * Request to clear database and then load data to database

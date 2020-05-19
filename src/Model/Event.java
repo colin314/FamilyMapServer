@@ -1,4 +1,4 @@
-package DataModels;
+package Model;
 
 import DaoObjects.EventDao;
 

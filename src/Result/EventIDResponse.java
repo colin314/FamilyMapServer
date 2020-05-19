@@ -1,7 +1,6 @@
-package Response;
+package Result;
 
-import DataModels.Event;
-import com.sun.java.accessibility.util.EventID;
+import Model.Event;
 
 public class EventIDResponse extends Event {
 

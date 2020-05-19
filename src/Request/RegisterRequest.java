@@ -1,4 +1,4 @@
-package Requests;
+package Request;
 
 /**
  * Request to register new user.

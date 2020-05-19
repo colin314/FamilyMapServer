@@ -1,4 +1,4 @@
-package Response;
+package Result;
 
 public class Response {
     public Response() {}

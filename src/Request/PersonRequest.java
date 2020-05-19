@@ -1,4 +1,4 @@
-package Requests;
+package Request;
 
 public class PersonRequest {
 

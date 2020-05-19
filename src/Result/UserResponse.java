@@ -1,4 +1,4 @@
-package Response;
+package Result;
 
 /**
  * Response that returns user information (authentication token, user name, and person ID) along with the success code.
