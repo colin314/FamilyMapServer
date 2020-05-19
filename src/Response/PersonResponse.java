@@ -6,14 +6,14 @@ import java.util.List;
 
 public class PersonResponse {
 
-    public ArrayList<PersonResponseObject> data;
+    public ArrayList<Person> data;
     boolean success;
 
     public PersonResponse(List<Person> persons) {
         success = true;
-        data = new ArrayList<PersonResponseObject>();
+        data = new ArrayList<Person>();
         for (Person person : persons) {
-            data.add(new PersonResponseObject(person));
+            data.add(new Person(person));
         }
     }
 }

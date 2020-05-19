@@ -17,8 +17,20 @@ public class UserResponse {
         this.personID = personID;
     }
 
+    /**
+     * Authentication token string
+     */
     public String authToken;
+    /**
+     * User name passed in with request
+     */
     public String userName;
+    /**
+     * Person ID of the user's generated person object
+     */
     public String personID;
+    /**
+     * Whether or not the request was successful
+     */
     boolean success;
 }

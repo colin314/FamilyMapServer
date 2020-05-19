@@ -5,8 +5,19 @@ import DaoObjects.PersonDao;
 public class Person {
     public Person() {}
 
+    public Person(Person person) {
+        this.associatedUsername = person.associatedUsername;
+        this.firstName = person.firstName;
+        this.lastName = person.lastName;
+        this.gender = person.gender;
+        this.fatherID = person.fatherID;
+        this.motherID = person.motherID;
+        this.spouseID = person.spouseID;
+        this.personID = person.personID;
+    }
+
     public Person(PersonDao person) {
-        username = person.Username;
+        associatedUsername = person.Username;
         firstName = person.First_Name;
         lastName = person.Last_Name;
         gender = person.Gender;
@@ -19,7 +30,7 @@ public class Person {
     /**
      * Username to which this person belongs
      */
-    public String username;
+    public String associatedUsername;
     /**
      * Person’s first name
      */

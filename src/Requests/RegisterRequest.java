@@ -1,5 +1,8 @@
 package Requests;
 
+/**
+ * Request to register new user.
+ */
 public class RegisterRequest {
     public RegisterRequest() {}
 

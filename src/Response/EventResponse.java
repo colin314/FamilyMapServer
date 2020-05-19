@@ -7,12 +7,12 @@ import java.util.List;
 public class EventResponse {
     public EventResponse(List<Event> events) {
         success = true;
-        data = new ArrayList<EventResponseObject>();
+        data = new ArrayList<Event>();
         for (Event event : events) {
-            data.add(new EventResponseObject(event));
+            data.add(new Event(event));
         }
     }
 
-    public ArrayList<EventResponseObject> data;
+    public ArrayList<Event> data;
     public boolean success;
 }

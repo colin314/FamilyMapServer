@@ -1,5 +1,8 @@
 package Requests;
 
+/**
+ * Request for user to log in.
+ */
 public class LoginRequest {
     public LoginRequest() {}
 
