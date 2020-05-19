@@ -1,5 +1,9 @@
-package FamilyMapDbModels;
+package DaoObjects;
 
+/**
+ * Data access object for records from the 'Events' table. This is converted into an 'Event'
+ * Data object for processing in the code.
+ */
 public class EventDao {
     public EventDao() {}
 
@@ -18,11 +22,11 @@ public class EventDao {
     /**
      * Latitude of event’s location
      */
-    public String Latitude;
+    public double Latitude;
     /**
      * Longitude of event’s location
      */
-    public String Longitude;
+    public double Longitude;
     /**
      * Country in which event occurred
      */

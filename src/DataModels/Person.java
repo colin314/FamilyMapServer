@@ -1,0 +1,51 @@
+package DataModels;
+
+import DaoObjects.PersonDao;
+
+public class Person {
+    public Person() {}
+
+    public Person(PersonDao person) {
+        username = person.Username;
+        firstName = person.First_Name;
+        lastName = person.Last_Name;
+        gender = person.Gender;
+        fatherID = person.Father_ID;
+        motherID = person.Mother_ID;
+        spouseID = person.Spouse_ID;
+        personID = person.Person_ID;
+    }
+
+    /**
+     * Username to which this person belongs
+     */
+    public String username;
+    /**
+     * Person’s first name
+     */
+    public String firstName;
+    /**
+     * Person’s last name
+     */
+    public String lastName;
+    /**
+     * Person’s gender (string: “f” or “m”)
+     */
+    public String gender;
+    /**
+     * Person ID of person’s father (possibly null)
+     */
+    public String fatherID;
+    /**
+     * Person ID of person’s mother (possibly null)
+     */
+    public String motherID;
+    /**
+     * Person ID of person’s spouse (possibly null)
+     */
+    public String spouseID;
+    /**
+     * ID of the person
+     */
+    public String personID;
+}

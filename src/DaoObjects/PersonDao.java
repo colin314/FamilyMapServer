@@ -1,4 +1,4 @@
-package FamilyMapDbModels;
+package DaoObjects;
 
 public class PersonDao {
     public PersonDao() {}
