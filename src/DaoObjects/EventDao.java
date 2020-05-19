@@ -20,11 +20,11 @@ public class EventDao {
      */
     public String Person_ID;
     /**
-     * Latitude of event’s location
+     * Latitude of event's location
      */
     public double Latitude;
     /**
-     * Longitude of event’s location
+     * Longitude of event's location
      */
     public double Longitude;
     /**

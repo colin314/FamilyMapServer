@@ -9,15 +9,15 @@ public class UserDao {
      */
     public String Username;
     /**
-     * Unique Person ID assigned to this user’s generated Person object
+     * Unique Person ID assigned to this user's generated Person object
      */
     public String Person_ID;
     /**
-     * User’s password
+     * User's password
      */
     public String User_Password;
     /**
-     * User’s email address
+     * User's email address
      */
     public String Email;
 }

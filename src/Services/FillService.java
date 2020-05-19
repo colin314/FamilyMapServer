@@ -18,7 +18,7 @@ public class FillService {
      * @exception Response if the username is invalid.
      * @exception Response if there was an Internal server error.
      */
-    public Response fillDatabase(String username) {
+    public Response fillDatabase(String username) throws Response {
         return fillDatabase(username, 4);
     }
 
@@ -36,7 +36,7 @@ public class FillService {
      * @exception Response if the username or generations parameter is invalid.
      * @exception Response if there was an Internal server error.
      */
-    public Response fillDatabase(String username, int generations) {
+    public Response fillDatabase(String username, int generations) throws Response {
         throw new UnsupportedOperationException("This has not been implemented yet");
     }
 

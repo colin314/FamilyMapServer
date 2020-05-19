@@ -19,7 +19,7 @@ public class LoginService {
      * @exception Response if username or password is missing or invalid
      * @exception Response if there was an Internal server error.
      */
-    public UserResponse loginUser(LoginRequest request) {
+    public UserResponse loginUser(LoginRequest request) throws Response {
         throw new UnsupportedOperationException("This has not been implemented yet");
     }
 }

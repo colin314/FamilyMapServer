@@ -20,7 +20,7 @@ public class PersonService {
      * @exception Response if the requested person does not belong to this user.
      * @exception Response if there is an Internal server error.
      */
-    public PersonIDResponse getPersonByID(String personID, String authToken) {
+    public PersonIDResponse getPersonByID(String personID, String authToken) throws Response {
         throw new UnsupportedOperationException("This has not been implemented yet.");
     }
 
@@ -31,7 +31,7 @@ public class PersonService {
      * @exception Response if the auth token is invalid.
      * @exception Response if there is an Internal server error.
      */
-    public PersonResponse getPersonByUsername(String authToken) {
+    public PersonResponse getPersonByUsername(String authToken) throws Response {
         throw new UnsupportedOperationException("This has not been implemented yet.");
     }
 

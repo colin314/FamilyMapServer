@@ -19,7 +19,7 @@ public class RegisterService {
      * @exception Response if a required property is missing or has an invalid value
      * @exception Response if there was an Internal server error.
      */
-    public UserResponse registerUser(RegisterRequest request) {
+    public UserResponse registerUser(RegisterRequest request) throws Response {
         throw new UnsupportedOperationException("This has not been implemented yet");
     }
 }

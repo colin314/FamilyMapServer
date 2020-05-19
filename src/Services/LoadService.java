@@ -18,7 +18,7 @@ public class LoadService {
      * @exception Response if the request data is invalid (missing values, invalid values, etc.)
      * @exception Response if there was an Internal server error
      */
-    public Response loadData(LoadRequest request) {
+    public Response loadData(LoadRequest request) throws Response {
         throw new UnsupportedOperationException("This has not been implemented yet");
     }
 

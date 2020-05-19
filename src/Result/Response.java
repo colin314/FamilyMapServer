@@ -1,6 +1,6 @@
 package Result;
 
-public class Response {
+public class Response extends Throwable {
     public Response() {}
     public Response(String message, boolean success) {
         this.message = message;

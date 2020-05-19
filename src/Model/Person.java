@@ -32,27 +32,27 @@ public class Person {
      */
     public String associatedUsername;
     /**
-     * Person’s first name
+     * Person's first name
      */
     public String firstName;
     /**
-     * Person’s last name
+     * Person's last name
      */
     public String lastName;
     /**
-     * Person’s gender (string: "f" or "m")
+     * Person's gender (string: "f" or "m")
      */
     public String gender;
     /**
-     * Person ID of person’s father (possibly null)
+     * Person ID of person's father (possibly null)
      */
     public String fatherID;
     /**
-     * Person ID of person’s mother (possibly null)
+     * Person ID of person's mother (possibly null)
      */
     public String motherID;
     /**
-     * Person ID of person’s spouse (possibly null)
+     * Person ID of person's spouse (possibly null)
      */
     public String spouseID;
     /**
