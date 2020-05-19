@@ -38,7 +38,7 @@ public class DataAccessor {
      * is the event ID passed into the function.
      * @param eventID The ID of the event
      * @return The result of the query in an EventDao object.
-     * @exception if more than one even with the given event ID is found.
+     * @exception Result.ErrorResponse more than one even with the given event ID is found.
      */
     public EventDao GetEvent(String eventID) {
         throw new UnsupportedOperationException("This has not been implemented yet");

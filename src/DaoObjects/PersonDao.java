@@ -21,7 +21,7 @@ public class PersonDao {
      */
     public String Last_Name;
     /**
-     * Person’s gender (string: “f” or “m”)
+     * Person’s gender (string: "f" or "m")
      */
     public String Gender;
     /**

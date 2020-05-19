@@ -40,7 +40,7 @@ public class Person {
      */
     public String lastName;
     /**
-     * Person’s gender (string: “f” or “m”)
+     * Person’s gender (string: "f" or "m")
      */
     public String gender;
     /**
