@@ -32,4 +32,25 @@ public class User {
     public String lastName;
     public String gender;
     public String personID;
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Username: ");
+        builder.append(userName);
+        builder.append("\nPassword: ");
+        builder.append(password);
+        builder.append("\nEmail: ");
+        builder.append(email);
+        builder.append("\nFirst name: ");
+        builder.append(firstName);
+        builder.append("\nLast name: ");
+        builder.append(lastName);
+        builder.append("\nGender: ");
+        builder.append(gender);
+        builder.append("\nPerson ID: ");
+        builder.append(personID);
+        builder.append("\n");
+        return builder.toString();
+    }
 }

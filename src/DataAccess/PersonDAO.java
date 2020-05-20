@@ -42,13 +42,13 @@ public class PersonDAO {
     public Person find(String personID) throws DataAccessException {
         Person person;
         ResultSet rs = null;
-        String sql = "SELECT * FROM Persons WHERE PersonID = ?;";
+        String sql = "SELECT * FROM Persons WHERE Person_ID = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, personID);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                person = new Person(rs.getString("Person_ID"), rs.getString("First_Name"),
-                rs.getString("Username"), rs.getString("Last_Name"), rs.getString("Gender"), rs.getString("Father_ID"),
+                person = new Person(rs.getString("Person_ID"), rs.getString("Username"),
+                rs.getString("First_Name"), rs.getString("Last_Name"), rs.getString("Gender"), rs.getString("Father_ID"),
                         rs.getString("Mother_ID"), rs.getString("Spouse_ID"));
                 return person;
             }

@@ -1,5 +1,6 @@
 package DataAccess;
 
+import Model.Person;
 import Model.User;
 
 import java.sql.Connection;
@@ -21,8 +22,8 @@ public class UserDAO {
         String sql = "INSERT INTO Users (Username, Person_ID, User_Password, Email)" +
                 "VALUES (?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            //Using the statements built-in set(type) functions we can pick the question mark we want
-            //to fill in and give it a proper value. The first argument corresponds to the first
+            //            //Using the statements built-in set(type) functions we can pick the question mark we want
+            //            //to fill in and give it a proper value. The first argument corresponds to the first
             //question mark found in our sql String
             stmt.setString(1, user.userName);
             stmt.setString(2, user.personID);
@@ -33,6 +34,9 @@ public class UserDAO {
         } catch (SQLException e) {
             throw new DataAccessException("Error encountered while inserting user into the database");
         }
+        PersonDAO personDAO = new PersonDAO(conn);
+        Person newPerson = new Person(user.personID, user.userName, user.firstName, user.lastName, user.gender, null, null, null);
+        personDAO.insert(newPerson);
     }
 
     public User find(String userName) throws DataAccessException {
@@ -41,7 +45,7 @@ public class UserDAO {
         String sql = "SELECT u.Username, u.User_Password, u.Email, " +
                 "p.First_Name, p.Last_Name, p.Gender, p.Person_ID " +
                 "FROM Users u LEFT JOIN Persons p ON u.Person_ID = p.Person_ID " +
-                "WHERE Users.Username = ?;";
+                "WHERE u.Username = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, userName);
             rs = stmt.executeQuery();

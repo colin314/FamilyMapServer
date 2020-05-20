@@ -1,6 +1,10 @@
 package DataAccess;
 
 import java.sql.*;
+import java.util.UUID;
+
+import DataAccess.*;
+import Model.*;
 
 public class ConnectionFactory {
     public static final String SERVER = "localhost/DIPPR";
@@ -8,32 +12,28 @@ public class ConnectionFactory {
     public static final String PWD = "password";
 
     public static void main(String[] args) {
-        System.setProperty("java.net.preferIPv6Addresses", "True");
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        Database db = new Database();
+        try(Connection conn = db.openConnection()) {
+            UserDAO userDAO = new UserDAO(conn);
+            User user = userDAO.find("colin314");
+            System.out.println(user.toString());
         }
-        catch (ClassNotFoundException e) {
+        catch (DataAccessException e) {
             e.printStackTrace();
             return;
         }
-        String connectionUrl =
-                "jdbc:sqlserver://localhost\\DIPPR;" +
-                "databaseName=FamilyMapDb;integratedSecurity=false;" +
-                "encrypt=false;trustServerCertificate=true;" +
-                "authentication=SqlPassword;user=sa;password=incorrect";
-
-        try(Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost\\DIPPR","sa","incorrect");) {
-
-        }
         catch (SQLException e) {
             e.printStackTrace();
+            return;
         }
 
+/**
         try(Connection conn = DriverManager.getConnection(connectionUrl);) {
 
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+ */
     }
 }

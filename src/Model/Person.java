@@ -70,4 +70,13 @@ public class Person {
      * ID of the person
      */
     public String personID;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != Person.class) {
+            return false;
+        }
+        Person that = (Person) obj;
+        return this.personID.equals(that.personID);
+    }
 }
