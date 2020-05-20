@@ -17,6 +17,18 @@ public class Event {
         this.year = event.year;
     }
 
+    public Event(String eventID, String associatedUsername, String personID, double latitude, double longitude, String country, String city, String eventType, int year) {
+        this.eventID = eventID;
+        this.associatedUsername = associatedUsername;
+        this.personID = personID;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.country = country;
+        this.city = city;
+        this.eventType = eventType;
+        this.year = year;
+    }
+
     Event(EventDao event) {
         eventID = event.Event_ID;
         associatedUsername = event.Username;

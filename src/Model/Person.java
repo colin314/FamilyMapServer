@@ -16,6 +16,17 @@ public class Person {
         this.personID = person.personID;
     }
 
+    public Person(String personID, String associatedUsername, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
+        this.associatedUsername = associatedUsername;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.fatherID = fatherID;
+        this.motherID = motherID;
+        this.spouseID = spouseID;
+        this.personID = personID;
+    }
+
     public Person(PersonDao person) {
         associatedUsername = person.Username;
         firstName = person.First_Name;

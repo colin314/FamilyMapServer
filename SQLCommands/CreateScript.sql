@@ -8,6 +8,7 @@ IF (EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = 'FamilyMapDb')
 	END
 
 CREATE DATABASE FamilyMapDb;
+GO
 USE FamilyMapDb;
 GO
 

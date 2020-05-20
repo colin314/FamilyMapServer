@@ -3,6 +3,11 @@ package DaoObjects;
 public class AuthTokenDao {
     AuthTokenDao () {}
 
+    public AuthTokenDao(String token, String username) {
+        Token = token;
+        Username = username;
+    }
+
     /**
      * The authorization token
      */

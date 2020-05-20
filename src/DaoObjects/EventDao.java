@@ -7,6 +7,29 @@ package DaoObjects;
 public class EventDao {
     public EventDao() {}
 
+    public EventDao(String event_ID, String username, String person_ID, double latitude, double longitude, String country, String city, String eventType, Integer event_Year) {
+        Event_ID = event_ID;
+        Username = username;
+        Person_ID = person_ID;
+        Latitude = latitude;
+        Longitude = longitude;
+        Country = country;
+        City = city;
+        EventType = eventType;
+        Event_Year = event_Year;
+    }
+
+    public EventDao(String username, String person_ID, double latitude, double longitude, String country, String city, String eventType, Integer event_Year) {
+        Username = username;
+        Person_ID = person_ID;
+        Latitude = latitude;
+        Longitude = longitude;
+        Country = country;
+        City = city;
+        EventType = eventType;
+        Event_Year = event_Year;
+    }
+
     /**
      * The unique ID of the event
      */
@@ -42,5 +65,5 @@ public class EventDao {
     /**
      * Year in which event occurred
      */
-    public int Event_Year;
+    public Integer Event_Year;
 }

@@ -4,6 +4,19 @@ public class UserDao {
     public UserDao() {
     }
 
+    public UserDao(String username, String person_ID, String user_Password, String email) {
+        Username = username;
+        Person_ID = person_ID;
+        User_Password = user_Password;
+        Email = email;
+    }
+
+    public UserDao(String person_ID, String user_Password, String email) {
+        Person_ID = person_ID;
+        User_Password = user_Password;
+        Email = email;
+    }
+
     /**
      * Unique user name
      */

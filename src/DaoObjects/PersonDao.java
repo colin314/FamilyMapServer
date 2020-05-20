@@ -3,6 +3,27 @@ package DaoObjects;
 public class PersonDao {
     public PersonDao() {}
 
+    public PersonDao(String person_ID, String username, String first_Name, String last_Name, String gender, String father_ID, String mother_ID, String spouse_ID) {
+        Person_ID = person_ID;
+        Username = username;
+        First_Name = first_Name;
+        Last_Name = last_Name;
+        Gender = gender;
+        Father_ID = father_ID;
+        Mother_ID = mother_ID;
+        Spouse_ID = spouse_ID;
+    }
+
+    public PersonDao(String username, String first_Name, String last_Name, String gender, String father_ID, String mother_ID, String spouse_ID) {
+        Username = username;
+        First_Name = first_Name;
+        Last_Name = last_Name;
+        Gender = gender;
+        Father_ID = father_ID;
+        Mother_ID = mother_ID;
+        Spouse_ID = spouse_ID;
+    }
+
     /**
      * Unique identifier for this person (non-empty string)
      */
