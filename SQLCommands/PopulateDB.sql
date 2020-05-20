@@ -1,12 +1,12 @@
-USE FamilyMapDb_Tester;
+USE FamilyMapDb;
 GO
 
 DECLARE @u1 uniqueidentifier 
-SET @u1 = '62CC127E-477E-45D1-BF6A-B63FB89F075B'
+SET @u1 = NEWID()
 DECLARE @u2 uniqueidentifier 
-SET @u2 = '21E6B772-74F1-43D8-B7D3-9306F08CC838'
+SET @u2 = NEWID()
 DECLARE @u3 uniqueidentifier 
-SET @u3 = 'D8B340FC-F421-4472-8D08-FB28D3D5138F'
+SET @u3 = NEWID()
 
 INSERT INTO Users (Username, Person_ID, User_Password, Email)
 VALUES ('colin314', @u1, 'password', 'c.anderson1830@gmail.com'),

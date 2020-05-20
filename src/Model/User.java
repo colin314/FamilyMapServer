@@ -15,7 +15,8 @@ public class User {
         personID = person.Person_ID;
     }
 
-    public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
+    public User(String userName, String password, String email, String firstName,
+                String lastName, String gender, String personID) {
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -52,5 +53,27 @@ public class User {
         builder.append(personID);
         builder.append("\n");
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != User.class) {
+            return false;
+        }
+        User that = (User) obj;
+        return this.userName.equalsIgnoreCase(that.userName);
+    }
+
+    public boolean fullEquals(User that) {
+        if (!this.equals(that)) {
+            return false;
+        }
+        if (!this.password.equals(that.password)) {return false;}
+        if (!this.email.equalsIgnoreCase(that.email)) {return false;}
+        if (!this.firstName.equalsIgnoreCase(that.firstName)) {return false;}
+        if (!this.lastName.equalsIgnoreCase(that.lastName)) {return false;}
+        if (!this.gender.equalsIgnoreCase(that.gender)){return false;}
+        if (!this.personID.equalsIgnoreCase(that.personID)) {return false;}
+        return true;
     }
 }

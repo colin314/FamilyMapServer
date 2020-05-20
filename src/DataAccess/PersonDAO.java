@@ -67,4 +67,19 @@ public class PersonDAO {
         }
         return null;
     }
+
+    /**
+     * Clears the Persons table of all non-user persons
+     * @throws DataAccessException if there is an error
+     */
+    public void clear() throws DataAccessException {
+        String sql = "DELETE FROM Persons WHERE Person_ID NOT IN (SELECT Person_ID FROM Users)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while clearing the Persons DB");
+        }
+    }
 }

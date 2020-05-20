@@ -3,6 +3,8 @@ package UnitTests;
 import DataAccess.*;
 import Model.*;
 import org.junit.jupiter.api.*;
+
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -17,14 +19,9 @@ public class PersonDAOTest {
             "encrypt=false;trustServerCertificate=true;" +
             "authentication=SqlPassword;user=sa;password=incorrect";
 
-
     @BeforeEach
     @DisplayName("Setting up test")
     void init() throws ExceptionInInitializerError {
-        String CONNECTION_URL = "jdbc:sqlserver://localhost\\DIPPR;" +
-                "databaseName=FamilyMapDb_Tester;integratedSecurity=false;" +
-                "encrypt=false;trustServerCertificate=true;" +
-                "authentication=SqlPassword;user=sa;password=incorrect";
         try {
             conn = DriverManager.getConnection(CONNECTION_URL);
             conn.setAutoCommit(false);
@@ -53,16 +50,16 @@ public class PersonDAOTest {
     @Test
     @DisplayName("Duplicate Person_ID Insert Fails")
     void testDuplicatePerson_ID() {
-        Person newPerson1 = new Person("DF51D8E8-0FAE-4CEF-BFE3-52C318CD71DB",
+        Person newPerson1 = new Person("62CC127E-477E-45D1-BF6A-B63FB89F075B",
                 "colin314", "Colin", "Anderson",
                 "m", null, null, null);
 
         Assertions.assertThrows(DataAccessException.class, () -> personDAO.insert(newPerson1), "Failed to throw duplicate key exception");
-        Person newPerson2 = new Person("3E875825-EE87-4FC9-B993-06B4E10F4E07",
+        Person newPerson2 = new Person("21E6B772-74F1-43D8-B7D3-9306F08CC838",
                 "colin314", "Colin", "Anderson",
                 "m", null, null, null);
         Assertions.assertThrows(DataAccessException.class, () -> personDAO.insert(newPerson2), "Failed to throw duplicate key exception");
-        Person newPerson3 = new Person("45BF351E-5A61-4F94-856F-D69D0A09ACC4",
+        Person newPerson3 = new Person("D8B340FC-F421-4472-8D08-FB28D3D5138F",
                 "colin314", "Colin", "Anderson",
                 "m", null, null, null);
         Assertions.assertThrows(DataAccessException.class, () -> personDAO.insert(newPerson3), "Failed to throw duplicate key exception");
@@ -94,12 +91,12 @@ public class PersonDAOTest {
     @Test
     @DisplayName("Find Person returns correct person")
     void testPersonFind_FindsPerson() {
-        Person expectedPerson = new Person("3E875825-EE87-4FC9-B993-06B4E10F4E07",
+        Person expectedPerson = new Person("21E6B772-74F1-43D8-B7D3-9306F08CC838",
                 "rDavis", "Rhen", "Davis", "m",
                 null,null,null);
         Person actualPerson = null;
         try {
-            actualPerson = personDAO.find("3E875825-EE87-4FC9-B993-06B4E10F4E07");
+            actualPerson = personDAO.find("21E6B772-74F1-43D8-B7D3-9306F08CC838");
         }
         catch (DataAccessException e) {
             e.printStackTrace();
@@ -132,5 +129,35 @@ public class PersonDAOTest {
 
     }
 
-
+    @Test
+    @DisplayName("Clear Persons works")
+    void PersonClear_Works() {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Persons")){
+            ResultSet rs = stmt.executeQuery();
+            int rowCount = 0;
+            while (rs.next()) {
+                rowCount++;
+            }
+            Assertions.assertTrue(rowCount > 3, "The initial state of the test DB is incorrect.");
+            conn.rollback();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError("Error thrown when attempting to verify clear statement.");
+        }
+        Assertions.assertDoesNotThrow(() -> personDAO.clear());
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Persons")){
+            ResultSet rs = stmt.executeQuery();
+            int rowCount = 0;
+            while (rs.next()) {
+                rowCount++;
+            }
+            Assertions.assertEquals(3, rowCount, "An incorrect number of Persons were removed from the" +
+                    " Persons table");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError("Error thrown when attempting to verify clear statement.");
+        }
+    }
 }
