@@ -1,7 +1,5 @@
 package Model;
 
-import DaoObjects.PersonDao;
-
 public class Person {
     public Person() {}
 
@@ -26,17 +24,6 @@ public class Person {
         this.motherID = motherID;
         this.spouseID = spouseID;
         this.personID = personID;
-    }
-
-    public Person(PersonDao person) {
-        associatedUsername = person.Username;
-        firstName = person.First_Name;
-        lastName = person.Last_Name;
-        gender = person.Gender;
-        fatherID = person.Father_ID;
-        motherID = person.Mother_ID;
-        spouseID = person.Spouse_ID;
-        personID = person.Person_ID;
     }
 
     /**

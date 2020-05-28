@@ -2,12 +2,21 @@ package Services;
 
 import Result.Response;
 import java.lang.UnsupportedOperationException;
+import java.sql.Connection;
 
 /**
  * Responsible for executing fill requests.
  */
-public class FillService {
-    public FillService() {}
+public class FillService extends Service{
+    public FillService() {
+        super();
+    }
+
+    public FillService(Connection conn) {
+        super(conn);
+    }
+
+
 
     /**
      * Overload of {@code fillDatabase(String username, int generations)} that puts in

@@ -1,6 +1,5 @@
 package Model;
 
-import DaoObjects.EventDao;
 import Result.EventIDResponse;
 
 public class Event {
@@ -29,18 +28,6 @@ public class Event {
         this.city = city;
         this.eventType = eventType;
         this.year = year;
-    }
-
-    Event(EventDao event) {
-        eventID = event.Event_ID;
-        associatedUsername = event.Username;
-        personID = event.Person_ID;
-        latitude = event.Latitude;
-        longitude = event.Longitude;
-        country = event.Country;
-        city = event.City;
-        eventType = event.EventType;
-        year = event.Event_Year;
     }
 
     public String eventID;
