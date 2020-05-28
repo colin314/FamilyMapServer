@@ -14,14 +14,13 @@ GO
 
 CREATE TABLE Users (
 	Username NVARCHAR(100),
-	Person_ID UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-	PRIMARY KEY (Username),
+	Person_ID nvarchar(max),
 	User_Password NVARCHAR(50) NOT NULL,
 	Email NVARCHAR(100) NOT NULL
 	)
 
 CREATE TABLE Persons (
-	Person_ID UNIQUEIDENTIFIER DEFAULT NEWID(),
+	Person_ID nvarchar(max),
 	Username NVARCHAR(100) NOT NULL,
 	First_Name NVARCHAR(100),
 	Last_Name NVARCHAR(100),
@@ -29,14 +28,12 @@ CREATE TABLE Persons (
 	Father_ID UNIQUEIDENTIFIER,
 	Mother_ID UNIQUEIDENTIFIER,
 	Spouse_ID UNIQUEIDENTIFIER,
-	PRIMARY KEY (Person_ID),
 	);
 
 CREATE TABLE Events (
-	Event_ID uniqueidentifier DEFAULT NEWID(),
-		PRIMARY KEY (Event_ID),
-	Username nvarchar(100) NOT NULL,
-	Person_ID uniqueidentifier NOT NULL,
+	Event_ID nvarchar(max),
+	Username nvarchar(max),
+	Person_ID nvarchar(max) NOT NULL,
 	Latitude float(16),
 	Longitude float(16),
 	Country nvarchar(MAX),
@@ -46,26 +43,26 @@ CREATE TABLE Events (
 	)
 
 CREATE TABLE AuthTokens (
-	Token uniqueidentifier NOT NULL UNIQUE,
+	Token nvarchar(max) NOT NULL,
 	Username nvarchar(100) NOT NULL
 	)
 GO
 
-DECLARE @u1 uniqueidentifier 
+DECLARE @u1 nvarchar(max) 
 SET @u1 = '62CC127E-477E-45D1-BF6A-B63FB89F075B'
-DECLARE @u2 uniqueidentifier 
+DECLARE @u2 nvarchar(max) 
 SET @u2 = '21E6B772-74F1-43D8-B7D3-9306F08CC838'
-DECLARE @u3 uniqueidentifier 
+DECLARE @u3 nvarchar(max) 
 SET @u3 = 'D8B340FC-F421-4472-8D08-FB28D3D5138F'
-DECLARE @u4 uniqueidentifier
+DECLARE @u4 nvarchar(max)
 SET @u4 = 'c0eb66bb-8ff9-4131-bef9-6090100dc1c2'
-DECLARE @u5 uniqueidentifier
+DECLARE @u5 nvarchar(max)
 SET @u5 = '27e87f19-380a-4213-a38f-13e2529ff114'
-DECLARE @u6 uniqueidentifier
+DECLARE @u6 nvarchar(max)
 SET @u6 = '8d1e3801-5cdc-4011-8884-bd34f9eadbc7'
-DECLARE @u7 uniqueidentifier
+DECLARE @u7 nvarchar(max)
 SET @u7 = '44b4c8e6-8261-42c0-8779-c646433b281a'
-DECLARE @u8 uniqueidentifier
+DECLARE @u8 nvarchar(max)
 SET @u8 = 'ffae4e6f-bae6-4f03-91c2-f8fbdd780c0c'
 
 INSERT INTO Users (Username, Person_ID, User_Password, Email)

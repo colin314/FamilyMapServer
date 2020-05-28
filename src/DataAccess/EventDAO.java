@@ -116,7 +116,7 @@ public class EventDAO {
     public void clearByUser(String userName) throws DataAccessException {
         String sql = "DELETE FROM Events WHERE Username = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(0, userName);
+            stmt.setString(1, userName);
             stmt.execute();
         }
         catch (SQLException e) {

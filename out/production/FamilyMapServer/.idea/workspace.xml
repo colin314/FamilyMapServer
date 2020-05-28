@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="07c345e8-994d-404f-942f-e013df9afd28" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../FamilyMapServer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../FamilyMapServer.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SQLCommands/CreateScript_Tester.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../SQLCommands/CreateScript_Tester.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/FamilyMapServer/DataAccess/EventDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/FamilyMapServer/DataAccess/EventDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/FamilyMapServer/DataAccess/PersonDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/FamilyMapServer/DataAccess/PersonDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/FamilyMapServer/META-INF/FamilyMapServer.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/FamilyMapServer/Model/Person.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/FamilyMapServer/Model/Person.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/FamilyMapServer/Services/FillService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/FamilyMapServer/Services/FillService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataAccess/EventDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataAccess/EventDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataAccess/PersonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DataAccess/PersonDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/FillService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Services/FillService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1cYWXnHGCJYgrtQjZtOm8rMtxU5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="07c345e8-994d-404f-942f-e013df9afd28" name="Default Changelist" comment="" />
+      <created>1590706048551</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590706048551</updated>
+    </task>
+    <servers />
+  </component>
+</project>
