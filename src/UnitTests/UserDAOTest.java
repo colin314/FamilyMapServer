@@ -45,7 +45,6 @@ public class UserDAOTest {
             e.printStackTrace();
             throw e;
         }
-
     }
 
     //Good insert

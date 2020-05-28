@@ -18,12 +18,12 @@ import java.util.UUID;
 /**
  * Responsible for registering new users.
  */
-public class RegisterService {
+public class RegisterService extends Service {
     UserDAO userDAO;
     AuthTokenDAO tokenDAO;
-
+    Database db;
     public RegisterService() throws Response {
-        Database db = new Database();
+        super();
         try {
             userDAO =  new UserDAO(db.getConnection());
             tokenDAO = new AuthTokenDAO(db.getConnection());
@@ -34,6 +34,8 @@ public class RegisterService {
     }
 
     public RegisterService(Connection conn) throws Response {
+        super(conn);
+        db = null;
         userDAO =  new UserDAO(conn);
         tokenDAO = new AuthTokenDAO(conn);
     }
@@ -54,6 +56,7 @@ public class RegisterService {
             userDAO.insert(newUser);
         }
         catch (DataAccessException ex) {
+            closeConnection(false);
             throw new Response(ex.getMessage(),false);
         }
         //Generate Token
@@ -62,8 +65,10 @@ public class RegisterService {
             tokenDAO.insert(token);
         }
         catch (DataAccessException ex) {
+            closeConnection(false);
             throw new Response(ex.getMessage(), false);
         }
+        closeConnection(true);
         UserResponse response = new UserResponse(token.token, newUser.userName, newUser.personID);
         return response;
     }

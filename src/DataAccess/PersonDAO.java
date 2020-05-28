@@ -1,11 +1,13 @@
 package DataAccess;
 
+import Model.Event;
 import Model.Person;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PersonDAO {
     private final Connection conn;
@@ -68,6 +70,35 @@ public class PersonDAO {
         return null;
     }
 
+    public ArrayList<Person> findByUser(String userName) throws DataAccessException {
+        ArrayList<Person> persons = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "SELECT * FROM Persons WHERE Username = ?;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, userName);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                persons.add(new Person(rs.getString("Person_ID"), rs.getString("Username"),
+                        rs.getString("First_Name"),
+                        rs.getString("Last_Name"), rs.getString("Gender"), rs.getString("Father_ID"),
+                        rs.getString("Mother_ID"), rs.getString("Spouse_ID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while finding person");
+        } finally {
+            if(rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return persons;
+    }
+    
     /**
      * Clears the Persons table of all non-user persons
      * @throws DataAccessException if there is an error

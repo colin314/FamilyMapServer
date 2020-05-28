@@ -1,9 +1,10 @@
 package Model;
 
 import DaoObjects.EventDao;
+import Result.EventIDResponse;
 
 public class Event {
-    Event() {}
+    public Event() {}
 
     public Event(Event event) {
         this.eventID = event.eventID;
@@ -17,7 +18,8 @@ public class Event {
         this.year = event.year;
     }
 
-    public Event(String eventID, String associatedUsername, String personID, double latitude, double longitude, String country, String city, String eventType, int year) {
+    public Event(String eventID, String associatedUsername, String personID, double latitude, double longitude,
+                 String country, String city, String eventType, int year) {
         this.eventID = eventID;
         this.associatedUsername = associatedUsername;
         this.personID = personID;
@@ -50,4 +52,23 @@ public class Event {
     public String city;
     public String eventType;
     public int year;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() == Event.class || obj.getClass() == EventIDResponse.class) {
+            Event that = (Event)obj;
+            if (!this.eventID.equals(that.eventID)) { return false; }
+            if (!this.associatedUsername.equals(that.associatedUsername)) { return false; }
+            if (!this.personID.equals(that.personID)) { return false; }
+            if (!this.country.equals(that.country)) { return false; }
+            if (!this.city.equals(that.city)) { return false; }
+            if (!this.eventType.equalsIgnoreCase(that.eventType)) { return false; }
+            if (this.year != that.year) {return false;}
+        }
+        else {
+            return false;
+        }
+        return true;
+
+    }
 }

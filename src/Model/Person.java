@@ -16,7 +16,8 @@ public class Person {
         this.personID = person.personID;
     }
 
-    public Person(String personID, String associatedUsername, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
+    public Person(String personID, String associatedUsername, String firstName, String lastName, String gender,
+                  String fatherID, String motherID, String spouseID) {
         this.associatedUsername = associatedUsername;
         this.firstName = firstName;
         this.lastName = lastName;

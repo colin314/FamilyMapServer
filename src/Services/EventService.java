@@ -1,14 +1,39 @@
 package Services;
 
+import DataAccess.DataAccessException;
+import DataAccess.Database;
+import DataAccess.EventDAO;
+import Model.Event;
 import Result.Response;
 import Result.EventIDResponse;
 import Result.EventResponse;
 
+import javax.xml.crypto.Data;
+import java.lang.annotation.Repeatable;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Responsible for handling requests for events.
  */
-public class EventService {
-    public EventService() {}
+public class EventService extends AuthService{
+    Database db;
+    public EventService() throws Response {
+        super();
+        try {
+            eventDAO = new EventDAO(db.getConnection());
+        }
+        catch (DataAccessException ex) {
+            throw new Response(ex.getMessage(), false);
+        }
+    }
+
+    public EventService(Connection conn) throws Response {
+        super(conn);
+        eventDAO = new EventDAO(conn);
+    }
+    EventDAO eventDAO;
 
     /**
      * Returns the single Event object with the specified ID.
@@ -21,7 +46,34 @@ public class EventService {
      * @exception Response if there is an Internal server error.
      */
     public EventIDResponse getEventByID(String eventID, String authToken) throws Response {
-        throw new UnsupportedOperationException("Not implemented");
+        String userName = null;
+        try {
+            userName = verifyToken(authToken);
+        }
+        catch (Response r) {
+            closeConnection(false);
+            throw r;
+        }
+        if (userName == null) {
+            closeConnection(false);
+            throw new Response("Invalid auth token", false);
+        }
+
+        //Get Event
+        EventIDResponse response = null;
+        try {
+            Event event = eventDAO.find(eventID);
+            response = new EventIDResponse(event);
+        }
+        catch (DataAccessException ex) {
+            closeConnection(false);
+            throw new Response(ex.getMessage(), false);
+        }
+        closeConnection(true);
+        if (!response.associatedUsername.equals(userName)) {
+            throw new Response("Requested event does not belong to this user", false);
+        }
+        return response;
     }
 
     /**
@@ -33,6 +85,28 @@ public class EventService {
      * @exception Response if there is an Internal server error.
      */
     public EventResponse getEventByUser(String authToken) throws Response {
-        throw new UnsupportedOperationException("Not implemented");
+        String userName = null;
+        try {
+            userName = verifyToken(authToken);
+        }
+        catch (Response r) {
+            closeConnection(false);
+            throw r;
+        }
+        if (userName == null) {
+            closeConnection(false);
+            throw new Response("Invalid auth token", false);
+        }
+        EventResponse response = null;
+        try {
+            ArrayList<Event> events = eventDAO.findByUser(userName);
+            response = new EventResponse(events);
+        }
+        catch (DataAccessException ex) {
+            closeConnection(false);
+            throw new Response(ex.getMessage(), false);
+        }
+        closeConnection(true);
+        return response;
     }
 }

@@ -11,9 +11,9 @@ import java.sql.SQLException;
 /**
  * Responsible for clearing the database
  */
-public class ClearService {
+public class ClearService extends Service {
     public ClearService() throws Response{
-        db = new Database();
+        super();
         try {
             userDAO = new UserDAO(db.getConnection());
             eventDAO = new EventDAO(db.getConnection());
@@ -26,7 +26,7 @@ public class ClearService {
     }
 
     public ClearService(Connection conn) throws Response{
-        db = null;
+        super(conn);
         userDAO = new UserDAO(conn);
         eventDAO = new EventDAO(conn);
         personDAO = new PersonDAO(conn);
@@ -52,23 +52,11 @@ public class ClearService {
         }
         catch (DataAccessException ex) {
             if (db != null) {
-                try {
-                    db.closeConnection(false);
-                }
-                catch (DataAccessException ex2) {
-                    throw new Response(ex2.getMessage(), false);
-                }
+                closeConnection(false);
             }
             throw new Response(ex.getMessage(),false);
         }
-        try {
-            if (db != null) {
-                db.closeConnection(true);
-            }
-        }
-        catch (DataAccessException ex) {
-            throw new Response(ex.getMessage(), false);
-        }
+        closeConnection(true);
         return new Response("Clear succeeded.", true);
     }
 }

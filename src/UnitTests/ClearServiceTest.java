@@ -7,6 +7,7 @@ import Result.Response;
 import Result.UserResponse;
 import Services.ClearService;
 import Services.RegisterService;
+import Services.Service;
 import org.junit.jupiter.api.*;
 import java.sql.*;
 import java.util.*;
@@ -58,13 +59,59 @@ public class ClearServiceTest {
 
         try {
             service = new ClearService(conn);
-            actual = service.clearDatabase();
+            ClearService finalService = service;
+            Assertions.assertDoesNotThrow(() -> finalService.clearDatabase());
         }
         catch (Response ex) {
             throw new AssertionError(ex.message);
         }
-        try {
-
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Users")){
+            ResultSet rs = stmt.executeQuery();
+            int rowCount = 0;
+            while (rs.next()) {
+                rowCount++;
+            }
+            Assertions.assertEquals(0, rowCount, "Not all Users were cleared from the database");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError("Error thrown when attempting to verify clear statement.");
+        }
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Events")){
+            ResultSet rs = stmt.executeQuery();
+            int rowCount = 0;
+            while (rs.next()) {
+                rowCount++;
+            }
+            Assertions.assertEquals(0, rowCount, "Not all Events were cleared from the database");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError("Error thrown when attempting to verify clear statement.");
+        }
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Persons")){
+            ResultSet rs = stmt.executeQuery();
+            int rowCount = 0;
+            while (rs.next()) {
+                rowCount++;
+            }
+            Assertions.assertEquals(0, rowCount, "Not all Persons were cleared from the database");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError("Error thrown when attempting to verify clear statement.");
+        }
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM AuthTokens")){
+            ResultSet rs = stmt.executeQuery();
+            int rowCount = 0;
+            while (rs.next()) {
+                rowCount++;
+            }
+            Assertions.assertEquals(0, rowCount, "Not all AuthTokens were cleared from the database");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new AssertionError("Error thrown when attempting to verify clear statement.");
         }
     }
 }
