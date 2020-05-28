@@ -73,7 +73,7 @@ public class PersonDAO {
      * @throws DataAccessException if there is an error
      */
     public void clear() throws DataAccessException {
-        String sql = "DELETE FROM Persons WHERE Person_ID NOT IN (SELECT Person_ID FROM Users)";
+        String sql = "DELETE FROM Persons";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
         }

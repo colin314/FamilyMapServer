@@ -54,4 +54,15 @@ public class AuthTokenDAO {
         }
         return user;
     }
+
+    public void clear() throws DataAccessException {
+        String sql = "DELETE FROM AuthTokens";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while clearing the AuthTokens Table");
+        }
+    }
 }

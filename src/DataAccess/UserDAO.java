@@ -66,34 +66,12 @@ public class UserDAO {
                     e.printStackTrace();
                 }
             }
-
         }
         return null;
     }
 
     public void clear() throws DataAccessException {
-        String sql = "DELETE FROM Events";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.execute();
-        }
-        catch (SQLException e) {
-            throw new DataAccessException("Error encountered while clearing the Events table in preparation for clearing the Users");
-        }
-        sql = "DELETE FROM Persons";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.execute();
-        }
-        catch (SQLException e) {
-            throw new DataAccessException("Error encountered while clearing the Persons table in preparation for clearing the Users");
-        }
-        sql = "DELETE FROM AuthTokens";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.execute();
-        }
-        catch (SQLException e) {
-            throw new DataAccessException("Error encountered while clearing the AuthTokens table in preparation for clearing the Users");
-        }
-        sql = "DELETE FROM Users";
+        String sql = "DELETE FROM Users";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
         }

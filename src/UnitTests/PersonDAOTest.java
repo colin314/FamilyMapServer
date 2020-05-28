@@ -81,14 +81,6 @@ public class PersonDAOTest {
     }
 
     @Test
-    @DisplayName("Person insertion fails when Username is not found in Users table")
-    void testPersonInsert_UsernameFKFail() {
-        Person newPerson = new Person(UUID.randomUUID().toString(), "invalidUser",
-                "First", "Last", "m", null, null, null);
-        Assertions.assertThrows(DataAccessException.class, () -> personDAO.insert(newPerson));
-    }
-
-    @Test
     @DisplayName("Find Person returns correct person")
     void testPersonFind_FindsPerson() {
         Person expectedPerson = new Person("21E6B772-74F1-43D8-B7D3-9306F08CC838",
@@ -146,18 +138,5 @@ public class PersonDAOTest {
             throw new AssertionError("Error thrown when attempting to verify clear statement.");
         }
         Assertions.assertDoesNotThrow(() -> personDAO.clear());
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Persons")){
-            ResultSet rs = stmt.executeQuery();
-            int rowCount = 0;
-            while (rs.next()) {
-                rowCount++;
-            }
-            Assertions.assertEquals(3, rowCount, "An incorrect number of Persons were removed from the" +
-                    " Persons table");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            throw new AssertionError("Error thrown when attempting to verify clear statement.");
-        }
     }
 }

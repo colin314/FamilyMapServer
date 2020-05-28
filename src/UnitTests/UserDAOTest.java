@@ -125,18 +125,6 @@ public class UserDAOTest {
             throw new AssertionError("Error thrown when attempting to verify clear statement.");
         }
         Assertions.assertDoesNotThrow(() -> userDAO.clear());
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Persons")){
-            ResultSet rs = stmt.executeQuery();
-            int rowCount = 0;
-            while (rs.next()) {
-                rowCount++;
-            }
-            Assertions.assertEquals(0, rowCount, "Not all Users were cleared from the database");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            throw new AssertionError("Error thrown when attempting to verify clear statement.");
-        }
     }
 
 }
