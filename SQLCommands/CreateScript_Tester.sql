@@ -1,15 +1,15 @@
 USE master;
 GO
 
-IF (EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = 'FamilyMapDb'))
+IF (EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = 'FamilyMapDb_Tester'))
 	BEGIN
-		ALTER DATABASE FamilyMapDb SET single_user WITH ROLLBACK IMMEDIATE;
-		DROP DATABASE FamilyMapDb;
+		ALTER DATABASE FamilyMapDb_Tester SET single_user WITH ROLLBACK IMMEDIATE;
+		DROP DATABASE FamilyMapDb_Tester;
 	END
 
-CREATE DATABASE FamilyMapDb;
+CREATE DATABASE FamilyMapDb_Tester;
 GO
-USE FamilyMapDb;
+USE FamilyMapDb_Tester;
 GO
 
 CREATE TABLE Users (

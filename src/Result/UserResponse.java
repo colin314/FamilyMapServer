@@ -10,7 +10,7 @@ public class UserResponse {
      * @param userName User name passed in with request
      * @param personID Non-empty string containing the Person ID of the user's generated Person object
      */
-    UserResponse(String authToken, String userName, String personID) {
+    public UserResponse(String authToken, String userName, String personID) {
         success = true;
         this.authToken = authToken;
         this.userName = userName;
@@ -33,4 +33,12 @@ public class UserResponse {
      * Whether or not the request was successful
      */
     boolean success;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != UserResponse.class) { return false; }
+        UserResponse that = (UserResponse)obj;
+        if (!this.userName.equalsIgnoreCase(that.userName)) {return false;}
+        return true;
+    }
 }

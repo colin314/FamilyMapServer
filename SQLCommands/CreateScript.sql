@@ -30,14 +30,6 @@ CREATE TABLE Persons (
 	Mother_ID UNIQUEIDENTIFIER,
 	Spouse_ID UNIQUEIDENTIFIER,
 	PRIMARY KEY (Person_ID),
-	CONSTRAINT FK_FatherPerson FOREIGN KEY (Father_ID)
-		REFERENCES Persons(Person_ID),
-	CONSTRAINT FK_MotherPerson FOREIGN KEY (Mother_ID)
-		REFERENCES Persons(Person_ID),
-	CONSTRAINT FK_SpousePerson FOREIGN KEY (Spouse_ID)
-		REFERENCES Persons(Person_ID),
-	CONSTRAINT FK_AssocUserUsername FOREIGN KEY (Username)
-		REFERENCES Users(Username),
 	CONSTRAINT CHK_Gender CHECK (Gender='m' OR Gender='f')
 	);
 
@@ -45,9 +37,7 @@ CREATE TABLE Events (
 	Event_ID uniqueidentifier DEFAULT NEWID(),
 		PRIMARY KEY (Event_ID),
 	Username nvarchar(100) NOT NULL,
-		CONSTRAINT FK_EventUserUsername FOREIGN KEY (Username) REFERENCES Users(Username),
 	Person_ID uniqueidentifier NOT NULL,
-		CONSTRAINT FK_EventPersonPersonID FOREIGN KEY (Person_ID) REFERENCES Persons(Person_ID),
 	Latitude nvarchar(MAX),
 	Longitude nvarchar(MAX),
 	Country nvarchar(MAX),

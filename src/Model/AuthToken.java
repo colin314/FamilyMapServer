@@ -10,6 +10,11 @@ public class AuthToken {
         username = authToken.Username;
     }
 
+    public AuthToken(String token, String username) {
+        this.token = token;
+        this.username = username;
+    }
+
     /**
      * The authorization token
      */

@@ -1,14 +1,42 @@
 package Services;
 
+import DataAccess.AuthTokenDAO;
+import DataAccess.DataAccessException;
+import DataAccess.Database;
+import DataAccess.UserDAO;
+import Model.AuthToken;
+import Model.User;
 import Request.RegisterRequest;
 import Result.UserResponse;
 import Result.Response;
+
+import javax.xml.crypto.Data;
 import java.lang.UnsupportedOperationException;
+import java.sql.Connection;
+import java.util.UUID;
+
 /**
  * Responsible for registering new users.
  */
 public class RegisterService {
-    public RegisterService() {}
+    UserDAO userDAO;
+    AuthTokenDAO tokenDAO;
+
+    public RegisterService() throws Response {
+        Database db = new Database();
+        try {
+            userDAO =  new UserDAO(db.getConnection());
+            tokenDAO = new AuthTokenDAO(db.getConnection());
+        }
+        catch(DataAccessException ex) {
+            throw new Response(ex.getMessage(), false);
+        }
+    }
+
+    public RegisterService(Connection conn) throws Response {
+        userDAO =  new UserDAO(conn);
+        tokenDAO = new AuthTokenDAO(conn);
+    }
 
     /**
      * Registers the given user
@@ -20,6 +48,23 @@ public class RegisterService {
      * @exception Response if there was an Internal server error.
      */
     public UserResponse registerUser(RegisterRequest request) throws Response {
-        throw new UnsupportedOperationException("This has not been implemented yet");
+        //Create User
+        User newUser = new User(request);
+        try {
+            userDAO.insert(newUser);
+        }
+        catch (DataAccessException ex) {
+            throw new Response(ex.getMessage(),false);
+        }
+        //Generate Token
+        AuthToken token = new AuthToken(UUID.randomUUID().toString(), newUser.userName);
+        try {
+            tokenDAO.insert(token);
+        }
+        catch (DataAccessException ex) {
+            throw new Response(ex.getMessage(), false);
+        }
+        UserResponse response = new UserResponse(token.token, newUser.userName, newUser.personID);
+        return response;
     }
 }

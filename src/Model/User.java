@@ -1,6 +1,9 @@
 package Model;
 
 import DaoObjects.*;
+import Request.RegisterRequest;
+
+import java.util.UUID;
 
 public class User {
     public User() {}
@@ -13,6 +16,16 @@ public class User {
         lastName = person.Last_Name;
         gender = person.Gender.toLowerCase();
         personID = person.Person_ID;
+    }
+
+    public User(RegisterRequest request) {
+        userName = request.userName;
+        password = request.password;
+        email = request.email;
+        firstName = request.firstName;
+        lastName = request.lastName;
+        gender = request.gender;
+        personID = UUID.randomUUID().toString();
     }
 
     public User(String userName, String password, String email, String firstName,
