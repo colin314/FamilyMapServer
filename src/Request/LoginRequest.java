@@ -6,6 +6,11 @@ package Request;
 public class LoginRequest {
     public LoginRequest() {}
 
+    public LoginRequest(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
     /**
      * The user name of the user logging in
      */

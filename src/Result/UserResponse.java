@@ -32,7 +32,7 @@ public class UserResponse {
     /**
      * Whether or not the request was successful
      */
-    boolean success;
+    public boolean success;
 
     @Override
     public boolean equals(Object obj) {
