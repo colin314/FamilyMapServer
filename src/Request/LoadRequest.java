@@ -10,6 +10,12 @@ import Model.Person;
 public class LoadRequest {
     LoadRequest() {}
 
+    public LoadRequest(User[] users, Person[] persons, Event[] events) {
+        this.users = users;
+        this.persons = persons;
+        this.events = events;
+    }
+
     /**
      * Array of users to load into database
      */

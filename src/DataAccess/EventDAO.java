@@ -2,6 +2,7 @@ package DataAccess;
 
 import Model.Event;
 
+import javax.xml.crypto.Data;
 import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,8 +21,8 @@ public class EventDAO {
     public void insert(Event event) throws DataAccessException {
         //We can structure our string to be similar to a sql command, but if we insert question
         //marks we can change them later with help from the statement
-        String sql = "INSERT INTO Events (EventID, AssociatedUsername, PersonID, Latitude, Longitude, " +
-                "Country, City, EventType, Year) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Events (Event_ID, Username, Person_ID, Latitude, Longitude, " +
+                "Country, City, EventType, Event_Year) VALUES(?,?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             //Using the statements built-in set(type) functions we can pick the question mark we want
             //to fill in and give it a proper value. The first argument corresponds to the first
@@ -38,7 +39,7 @@ public class EventDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DataAccessException("Error encountered while inserting into the database");
+            throw new DataAccessException(e.getMessage());
         }
     }
 
@@ -109,6 +110,18 @@ public class EventDAO {
         catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException("Error encountered while clearing the Events Table");
+        }
+    }
+
+    public void clearByUser(String userName) throws DataAccessException {
+        String sql = "DELETE FROM Events WHERE Username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(0, userName);
+            stmt.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while clearing the Events Table: " + e.getMessage());
         }
     }
 }

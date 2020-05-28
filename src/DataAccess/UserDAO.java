@@ -34,16 +34,13 @@ public class UserDAO {
         } catch (SQLException e) {
             throw new DataAccessException("Error encountered while inserting user into the database");
         }
-        PersonDAO personDAO = new PersonDAO(conn);
-        Person newPerson = new Person(user.personID, user.userName, user.firstName, user.lastName, user.gender, null, null, null);
-        personDAO.insert(newPerson);
     }
 
     public User find(String userName) throws DataAccessException {
         User user;
         ResultSet rs = null;
         String sql = "SELECT u.Username, u.User_Password, u.Email, " +
-                "p.First_Name, p.Last_Name, p.Gender, p.Person_ID " +
+                "p.First_Name, p.Last_Name, p.Gender, u.Person_ID " +
                 "FROM Users u LEFT JOIN Persons p ON u.Person_ID = p.Person_ID " +
                 "WHERE u.Username = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -57,7 +54,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding user");
+            throw new DataAccessException("Error encountered while finding user: " + e.getMessage());
         } finally {
             if(rs != null) {
                 try {
@@ -76,7 +73,19 @@ public class UserDAO {
             stmt.execute();
         }
         catch (SQLException e) {
-            throw new DataAccessException("Error encountered while clearing the Users table");
+            throw new DataAccessException("Error encountered while clearing the Users table: " + e.getMessage());
+        }
+    }
+
+    public void clearByUser(String userName) throws DataAccessException {
+        String sql = "DELETE FROM Users WHERE Username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(0, userName);
+            stmt.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while clearing the Users Table: " + e.getMessage());
         }
     }
 }

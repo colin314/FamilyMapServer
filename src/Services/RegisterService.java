@@ -1,10 +1,8 @@
 package Services;
 
-import DataAccess.AuthTokenDAO;
-import DataAccess.DataAccessException;
-import DataAccess.Database;
-import DataAccess.UserDAO;
+import DataAccess.*;
 import Model.AuthToken;
+import Model.Person;
 import Model.User;
 import Request.RegisterRequest;
 import Result.UserResponse;
@@ -20,6 +18,7 @@ import java.util.UUID;
  */
 public class RegisterService extends Service {
     UserDAO userDAO;
+    PersonDAO personDAO;
     AuthTokenDAO tokenDAO;
     Database db;
     public RegisterService() throws Response {
@@ -27,6 +26,7 @@ public class RegisterService extends Service {
         try {
             userDAO =  new UserDAO(db.getConnection());
             tokenDAO = new AuthTokenDAO(db.getConnection());
+            personDAO = new PersonDAO(db.getConnection());
         }
         catch(DataAccessException ex) {
             throw new Response(ex.getMessage(), false);
@@ -38,6 +38,7 @@ public class RegisterService extends Service {
         db = null;
         userDAO =  new UserDAO(conn);
         tokenDAO = new AuthTokenDAO(conn);
+        personDAO = new PersonDAO(conn);
     }
 
     /**
@@ -54,6 +55,9 @@ public class RegisterService extends Service {
         User newUser = new User(request);
         try {
             userDAO.insert(newUser);
+            User user = userDAO.find(request.userName);
+            Person newPerson = new Person(user.personID, user.userName, newUser.firstName, newUser.lastName, newUser.gender, null, null, null);
+            personDAO.insert(newPerson);
         }
         catch (DataAccessException ex) {
             closeConnection(false);

@@ -37,7 +37,7 @@ public class PersonDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DataAccessException("Error encountered while inserting person into the database");
+            throw new DataAccessException(e.getMessage());
         }
     }
 
@@ -111,6 +111,18 @@ public class PersonDAO {
         catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException("Error encountered while clearing the Persons DB");
+        }
+    }
+
+    public void clearByUser(String userName) throws DataAccessException {
+        String sql = "DELETE FROM Persons WHERE Username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(0, userName);
+            stmt.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while clearing the Persons Table: " + e.getMessage());
         }
     }
 }
