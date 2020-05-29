@@ -13,7 +13,13 @@ import Handler.*;
 public class FamilyMapServer {
 
     public static void main(String[] args) {
-        
+        FamilyMapServer server = new FamilyMapServer();
+        try {
+            server.startServer(5000);
+        }
+        catch (IOException ex) {
+
+        }
     }
 
     private void startServer(int port) throws IOException {
@@ -27,6 +33,8 @@ public class FamilyMapServer {
     private void registerHandlers(HttpServer server) {
         server.createContext("/", new FileRequestHandler());
         server.createContext("/user/register", new RegisterRequestHandler());
+        server.createContext("/test", new MyHttpHandler());
+        server.createContext("/user/login", new LoginHandler());
         //...
     }
 

@@ -4,32 +4,29 @@ import DataAccess.DataAccessException;
 import DataAccess.Database;
 import DataAccess.EventDAO;
 import Model.Event;
-import Result.Response;
+import Result.FamilyMapException;
 import Result.EventIDResponse;
 import Result.EventResponse;
 
-import javax.xml.crypto.Data;
-import java.lang.annotation.Repeatable;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Responsible for handling requests for events.
  */
 public class EventService extends AuthService{
     Database db;
-    public EventService() throws Response {
+    public EventService() throws FamilyMapException {
         super();
         try {
             eventDAO = new EventDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
     }
 
-    public EventService(Connection conn) throws Response {
+    public EventService(Connection conn) throws FamilyMapException {
         super(conn);
         eventDAO = new EventDAO(conn);
     }
@@ -40,23 +37,23 @@ public class EventService extends AuthService{
      * @param eventID the ID of the event requested.
      * @param authToken The authToken for the user making the request.
      * @return An EventIDResponse object, containing the details of the requested event.
-     * @exception Response if the auth token is invalid.
-     * @exception Response if the eventID is invalid.
-     * @exception Response if the requested event does not belong to this user.
-     * @exception Response if there is an Internal server error.
+     * @exception FamilyMapException if the auth token is invalid.
+     * @exception FamilyMapException if the eventID is invalid.
+     * @exception FamilyMapException if the requested event does not belong to this user.
+     * @exception FamilyMapException if there is an Internal server error.
      */
-    public EventIDResponse getEventByID(String eventID, String authToken) throws Response {
+    public EventIDResponse getEventByID(String eventID, String authToken) throws FamilyMapException {
         String userName = null;
         try {
             userName = verifyToken(authToken);
         }
-        catch (Response r) {
+        catch (FamilyMapException r) {
             closeConnection(false);
             throw r;
         }
         if (userName == null) {
             closeConnection(false);
-            throw new Response("Invalid auth token", false);
+            throw new FamilyMapException("Invalid auth token", false);
         }
 
         //Get Event
@@ -67,11 +64,11 @@ public class EventService extends AuthService{
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
         closeConnection(true);
         if (!response.associatedUsername.equals(userName)) {
-            throw new Response("Requested event does not belong to this user", false);
+            throw new FamilyMapException("Requested event does not belong to this user", false);
         }
         return response;
     }
@@ -81,21 +78,21 @@ public class EventService extends AuthService{
      * @param authToken The authToken for the user making the request.
      * @return An EventResponse object, containing an array of Event objects of the events that
      * are owned by the current user.
-     * @exception Response if the auth token is invalid.
-     * @exception Response if there is an Internal server error.
+     * @exception FamilyMapException if the auth token is invalid.
+     * @exception FamilyMapException if there is an Internal server error.
      */
-    public EventResponse getEventByUser(String authToken) throws Response {
+    public EventResponse getEventByUser(String authToken) throws FamilyMapException {
         String userName = null;
         try {
             userName = verifyToken(authToken);
         }
-        catch (Response r) {
+        catch (FamilyMapException r) {
             closeConnection(false);
             throw r;
         }
         if (userName == null) {
             closeConnection(false);
-            throw new Response("Invalid auth token", false);
+            throw new FamilyMapException("Invalid auth token", false);
         }
         EventResponse response = null;
         try {
@@ -104,7 +101,7 @@ public class EventService extends AuthService{
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
         closeConnection(true);
         return response;

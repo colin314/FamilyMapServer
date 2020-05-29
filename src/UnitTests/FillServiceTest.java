@@ -1,15 +1,10 @@
 package UnitTests;
 
 import DataAccess.*;
-import Model.*;
-import Request.RegisterRequest;
-import Result.Response;
-import Result.UserResponse;
+import Result.FamilyMapException;
 import Services.FillService;
-import Services.RegisterService;
 import org.junit.jupiter.api.*;
 import java.sql.*;
-import java.util.*;
 
 public class FillServiceTest {
     private Connection conn = null;
@@ -55,13 +50,13 @@ public class FillServiceTest {
     void fill_Success() {
         try {
             FillService service = new FillService(conn);
-            Response response = service.fillDatabase("colin314", 2);
+            FamilyMapException response = service.fillDatabase("colin314", 2);
             String expected = "Successfully added 5 persons and 15 events to the database.";
             Assertions.assertNotNull(response);
             Assertions.assertTrue(response.success);
             Assertions.assertEquals(expected, response.message);
         }
-        catch (Response r) {
+        catch (FamilyMapException r) {
             throw new AssertionError(r.message);
         }
     }

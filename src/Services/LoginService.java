@@ -6,9 +6,9 @@ import DataAccess.UserDAO;
 import Model.AuthToken;
 import Model.User;
 import Request.LoginRequest;
+import Result.FamilyMapException;
 import Result.UserResponse;
-import Result.Response;
-import java.lang.UnsupportedOperationException;
+
 import java.sql.Connection;
 import java.util.UUID;
 
@@ -17,14 +17,14 @@ import java.util.UUID;
  * successful.
  */
 public class LoginService extends Service {
-    public LoginService() throws Response {
+    public LoginService() throws FamilyMapException {
         super();
         try {
             userDAO = new UserDAO(db.getConnection());
             authTokenDAO = new AuthTokenDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
     }
 
@@ -41,18 +41,18 @@ public class LoginService extends Service {
      * Attempts to log the user in using the given username and password.
      * @param request The request, which contains the username and password.
      * @return A UserResponse object with the authToken for the current log-in session.
-     * @exception Response if username or password is missing or invalid
-     * @exception Response if there was an Internal server error.
+     * @exception FamilyMapException if username or password is missing or invalid
+     * @exception FamilyMapException if there was an Internal server error.
      */
-    public UserResponse loginUser(LoginRequest request) throws Response {
+    public UserResponse loginUser(LoginRequest request) throws FamilyMapException, UnauthorizedException {
         UserResponse response = null;
         try {
             User user = userDAO.find(request.userName);
             if (user == null) {
-                throw new Response("The given username does not correspond to a known user", false);
+                throw new UnauthorizedException("The given username does not correspond to a known user");
             }
             if (!user.password.equals(request.password)) {
-                throw new Response("The given username and password do not match", false);
+                throw new UnauthorizedException("The given username and password do not match");
             }
             String newToken = UUID.randomUUID().toString();
             AuthToken token = new AuthToken(newToken, user.userName);
@@ -61,7 +61,7 @@ public class LoginService extends Service {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
         closeConnection(true);
         return response;

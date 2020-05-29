@@ -1,18 +1,9 @@
 package UnitTests;
 
-import DataAccess.*;
 import Model.*;
 import Request.LoadRequest;
-import Request.LoginRequest;
-import Request.RegisterRequest;
-import Result.PersonIDResponse;
-import Result.PersonResponse;
-import Result.Response;
-import Result.UserResponse;
+import Result.FamilyMapException;
 import Services.LoadService;
-import Services.LoginService;
-import Services.PersonService;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import java.sql.*;
 import java.util.*;
@@ -69,12 +60,12 @@ public class LoadServiceTest {
         events[0] = new Event(UUID.randomUUID().toString(), "george", georgeUUID, 500, 340, "France",
                 "Paris", "Birth", 1950);
         LoadRequest request = new LoadRequest(users, persons, events);
-        Response response = null;
+        FamilyMapException response = null;
         try {
             LoadService service = new LoadService(conn);
             response = service.loadData(request);
         }
-        catch (Response r) {
+        catch (FamilyMapException r) {
             throw new AssertionError(r.message);
         }
         String expected = "Successfully added 2 persons and 1 events to the database.";

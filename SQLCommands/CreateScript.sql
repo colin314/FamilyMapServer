@@ -13,33 +13,29 @@ USE FamilyMapDb;
 GO
 
 CREATE TABLE Users (
-	Username NVARCHAR(100),
-	Person_ID UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
-	PRIMARY KEY (Username),
+	Username NVARCHAR(100) UNIQUE,
+	Person_ID nvarchar(max),
 	User_Password NVARCHAR(50) NOT NULL,
 	Email NVARCHAR(100) NOT NULL
 	)
 
 CREATE TABLE Persons (
-	Person_ID UNIQUEIDENTIFIER DEFAULT NEWID(),
+	Person_ID nvarchar(100) UNIQUE,
 	Username NVARCHAR(100) NOT NULL,
-	First_Name NVARCHAR(100) NOT NULL,
-	Last_Name NVARCHAR(100) NOT NULL,
+	First_Name NVARCHAR(100),
+	Last_Name NVARCHAR(100),
 	Gender NVARCHAR(1) NOT NULL,
 	Father_ID UNIQUEIDENTIFIER,
 	Mother_ID UNIQUEIDENTIFIER,
 	Spouse_ID UNIQUEIDENTIFIER,
-	PRIMARY KEY (Person_ID),
-	CONSTRAINT CHK_Gender CHECK (Gender='m' OR Gender='f')
 	);
 
 CREATE TABLE Events (
-	Event_ID uniqueidentifier DEFAULT NEWID(),
-		PRIMARY KEY (Event_ID),
-	Username nvarchar(100) NOT NULL,
-	Person_ID uniqueidentifier NOT NULL,
-	Latitude nvarchar(MAX),
-	Longitude nvarchar(MAX),
+	Event_ID nvarchar(100) UNIQUE,
+	Username nvarchar(max),
+	Person_ID nvarchar(max) NOT NULL,
+	Latitude float(16),
+	Longitude float(16),
 	Country nvarchar(MAX),
 	City nvarchar(MAX),
 	EventType nvarchar(MAX),
@@ -47,7 +43,7 @@ CREATE TABLE Events (
 	)
 
 CREATE TABLE AuthTokens (
-	Token uniqueidentifier NOT NULL UNIQUE,
+	Token nvarchar(100) NOT NULL UNIQUE,
 	Username nvarchar(100) NOT NULL
 	)
 USE master;

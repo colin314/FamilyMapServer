@@ -1,10 +1,14 @@
 package Result;
 
-public class Response extends Throwable {
+public class Response {
     public Response() {}
     public Response(String message, boolean success) {
         this.message = message;
         this.success = success;
+    }
+    public Response(FamilyMapException res) {
+        message = res.message;
+        success= res.success;
     }
 
     public String message;

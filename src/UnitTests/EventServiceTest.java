@@ -2,16 +2,12 @@ package UnitTests;
 
 import DataAccess.*;
 import Model.*;
-import Request.RegisterRequest;
 import Result.EventIDResponse;
 import Result.EventResponse;
-import Result.Response;
-import Result.UserResponse;
+import Result.FamilyMapException;
 import Services.EventService;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import java.sql.*;
-import java.util.*;
 
 public class EventServiceTest {
     private Connection conn = null;
@@ -65,7 +61,7 @@ public class EventServiceTest {
             EventService service = new EventService(conn);
             response = service.getEventByID(eventID, authToken);
         }
-        catch (Response ex) {
+        catch (FamilyMapException ex) {
             throw new AssertionError(ex.message);
         }
         Assertions.assertTrue(response.equals(expected));
@@ -79,7 +75,7 @@ public class EventServiceTest {
             EventService service = new EventService(conn);
             response = service.getEventByUser(authToken);
         }
-        catch (Response ex) {
+        catch (FamilyMapException ex) {
             throw new AssertionError(ex.message);
         }
         Assertions.assertEquals(2, response.data.size());

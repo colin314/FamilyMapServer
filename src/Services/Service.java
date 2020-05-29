@@ -2,9 +2,7 @@ package Services;
 
 import DataAccess.DataAccessException;
 import DataAccess.Database;
-import Result.Response;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 
 public abstract class Service {
@@ -16,7 +14,7 @@ public abstract class Service {
         db = null;
     }
 
-    Database db;
+    protected Database db;
 
     protected void closeConnection(boolean commit) {
         if (db != null) {

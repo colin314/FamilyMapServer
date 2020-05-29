@@ -5,11 +5,9 @@ import Model.AuthToken;
 import Model.Person;
 import Model.User;
 import Request.RegisterRequest;
+import Result.FamilyMapException;
 import Result.UserResponse;
-import Result.Response;
 
-import javax.xml.crypto.Data;
-import java.lang.UnsupportedOperationException;
 import java.sql.Connection;
 import java.util.UUID;
 
@@ -20,20 +18,20 @@ public class RegisterService extends Service {
     UserDAO userDAO;
     PersonDAO personDAO;
     AuthTokenDAO tokenDAO;
-    Database db;
-    public RegisterService() throws Response {
+    public RegisterService() throws FamilyMapException {
         super();
         try {
-            userDAO =  new UserDAO(db.getConnection());
+            Connection conn = db.getConnection();
+            userDAO =  new UserDAO(conn);
             tokenDAO = new AuthTokenDAO(db.getConnection());
             personDAO = new PersonDAO(db.getConnection());
         }
         catch(DataAccessException ex) {
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
     }
 
-    public RegisterService(Connection conn) throws Response {
+    public RegisterService(Connection conn) throws FamilyMapException {
         super(conn);
         db = null;
         userDAO =  new UserDAO(conn);
@@ -46,11 +44,11 @@ public class RegisterService extends Service {
      * @param request The incoming register request
      * @return A UserResponse object with details about the user (authToken, userName, and personID)
      * indicating the register request was successful.
-     * @exception Response if the username is already taken
-     * @exception Response if a required property is missing or has an invalid value
-     * @exception Response if there was an Internal server error.
+     * @exception FamilyMapException if the username is already taken
+     * @exception FamilyMapException if a required property is missing or has an invalid value
+     * @exception FamilyMapException if there was an Internal server error.
      */
-    public UserResponse registerUser(RegisterRequest request) throws Response {
+    public UserResponse registerUser(RegisterRequest request) throws FamilyMapException {
         //Create User
         User newUser = new User(request);
         try {
@@ -61,7 +59,16 @@ public class RegisterService extends Service {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new Response(ex.getMessage(),false);
+            throw new FamilyMapException(ex.getMessage(),false);
+        }
+        //Generate 4 generations of data
+        try {
+            FillService fillService = new FillService(db.getConnection());
+            fillService.fillDatabase(newUser.userName);
+        }
+        catch (DataAccessException ex) {
+            closeConnection(false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
         //Generate Token
         AuthToken token = new AuthToken(UUID.randomUUID().toString(), newUser.userName);
@@ -70,7 +77,7 @@ public class RegisterService extends Service {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
         closeConnection(true);
         UserResponse response = new UserResponse(token.token, newUser.userName, newUser.personID);

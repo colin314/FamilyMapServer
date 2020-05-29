@@ -2,16 +2,12 @@ package UnitTests;
 
 import DataAccess.*;
 import Model.*;
-import Request.RegisterRequest;
+import Result.FamilyMapException;
 import Result.PersonIDResponse;
 import Result.PersonResponse;
-import Result.Response;
-import Result.UserResponse;
 import Services.PersonService;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import java.sql.*;
-import java.util.*;
 
 public class PersonServiceTest {
     private Connection conn = null;
@@ -64,7 +60,7 @@ public class PersonServiceTest {
             PersonService service = new PersonService(conn);
             response = service.getPersonByID(personID, authToken);
         }
-        catch (Response ex) {
+        catch (FamilyMapException ex) {
             throw new AssertionError(ex.message);
         }
         Assertions.assertTrue(response.personID.equals(personID));
@@ -78,7 +74,7 @@ public class PersonServiceTest {
             PersonService service = new PersonService(conn);
             response = service.getPersonByUsername(authToken);
         }
-        catch (Response ex) {
+        catch (FamilyMapException ex) {
             throw new AssertionError(ex.message);
         }
         Assertions.assertEquals(3, response.data.size());

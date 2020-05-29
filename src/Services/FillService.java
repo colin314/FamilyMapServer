@@ -5,7 +5,7 @@ import DataAccess.*;
 import Model.Event;
 import Model.Person;
 import Model.User;
-import Result.Response;
+import Result.FamilyMapException;
 import com.github.javafaker.Faker;
 import java.sql.Connection;
 import java.util.Random;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * Responsible for executing fill requests.
  */
 public class FillService extends Service{
-    public FillService() throws Response {
+    public FillService() throws FamilyMapException {
         super();
         try {
             userDAO = new UserDAO(db.getConnection());
@@ -24,7 +24,7 @@ public class FillService extends Service{
             authTokenDAO = new AuthTokenDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
     }
 
@@ -50,10 +50,10 @@ public class FillService extends Service{
      * @param username The username to excute the fill for.
      * @return A Response object detailing how many persons and events were added to
      * the database.
-     * @exception Response if the username is invalid.
-     * @exception Response if there was an Internal server error.
+     * @exception FamilyMapException if the username is invalid.
+     * @exception FamilyMapException if there was an Internal server error.
      */
-    public Response fillDatabase(String username) throws Response {
+    public FamilyMapException fillDatabase(String username) throws FamilyMapException {
         return fillDatabase(username, 4);
     }
 
@@ -68,16 +68,16 @@ public class FillService extends Service{
      * @param generations The number of generations to generate.
      * @return A Response object detailing how many persons and events were added to
      * he database.
-     * @exception Response if the username or generations parameter is invalid.
-     * @exception Response if there was an Internal server error.
+     * @exception FamilyMapException if the username or generations parameter is invalid.
+     * @exception FamilyMapException if there was an Internal server error.
      */
-    public Response fillDatabase(String username, int generations) throws Response {
+    public FamilyMapException fillDatabase(String username, int generations) throws FamilyMapException {
         //Make sure user is registered
         try {
             User user = userDAO.find(username);
             if (user == null) {
                 closeConnection(false);
-                throw new Response("The username does not correspond to a known user", false);
+                throw new FamilyMapException("The username does not correspond to a known user", false);
             }
             personDAO.clearByUser(username);
             eventDAO.clearByUser(username);
@@ -101,17 +101,17 @@ public class FillService extends Service{
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
         int personCount = (int)Math.pow(2.0, generations) + 1;
         int evenCount = personCount * 3;
         String msg = String.format("Successfully added %d persons and %d events to the database.",personCount, evenCount);
-        Response rv = new Response(msg, true);
+        FamilyMapException rv = new FamilyMapException(msg, true);
         closeConnection(true);
         return rv;
     }
 
-    private void populateTree(FamilyTreeNode childNode, int depth, int maxDepth) throws Response{
+    private void populateTree(FamilyTreeNode childNode, int depth, int maxDepth) throws FamilyMapException {
         if (!(depth < maxDepth)) {
             return;
         }

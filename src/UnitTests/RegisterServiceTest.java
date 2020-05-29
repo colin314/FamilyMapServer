@@ -1,14 +1,12 @@
 package UnitTests;
 
 import DataAccess.*;
-import Model.*;
 import Request.RegisterRequest;
-import Result.Response;
+import Result.FamilyMapException;
 import Result.UserResponse;
 import Services.RegisterService;
 import org.junit.jupiter.api.*;
 import java.sql.*;
-import java.util.*;
 
 public class RegisterServiceTest {
     private Connection conn = null;
@@ -60,7 +58,7 @@ public class RegisterServiceTest {
             service = new RegisterService(conn);
             actual = service.registerUser(request);
         }
-        catch (Response ex) {
+        catch (FamilyMapException ex) {
             throw new AssertionError(ex.message);
         }
         Assertions.assertTrue(actual.userName.equalsIgnoreCase("neilO"));

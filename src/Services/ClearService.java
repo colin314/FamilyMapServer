@@ -1,18 +1,15 @@
 package Services;
 
 import DataAccess.*;
-import Model.AuthToken;
-import Model.User;
-import Result.Response;
-import java.lang.UnsupportedOperationException;
+import Result.FamilyMapException;
+
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * Responsible for clearing the database
  */
 public class ClearService extends Service {
-    public ClearService() throws Response{
+    public ClearService() throws FamilyMapException {
         super();
         try {
             userDAO = new UserDAO(db.getConnection());
@@ -21,11 +18,11 @@ public class ClearService extends Service {
             authTokenDAO = new AuthTokenDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new Response(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage(), false);
         }
     }
 
-    public ClearService(Connection conn) throws Response{
+    public ClearService(Connection conn) throws FamilyMapException {
         super(conn);
         userDAO = new UserDAO(conn);
         eventDAO = new EventDAO(conn);
@@ -41,9 +38,9 @@ public class ClearService extends Service {
     /**
      * Deletes ALL data from the database, including user accounts, auth tokens, and generated person and event data.
      * @return A Response object stating that the operation was successful.
-     * @exception Response if there was an Internal server error.
+     * @exception FamilyMapException if there was an Internal server error.
      */
-    public Response clearDatabase() throws Response {
+    public FamilyMapException clearDatabase() throws FamilyMapException {
         try {
             userDAO.clear();
             eventDAO.clear();
@@ -54,9 +51,9 @@ public class ClearService extends Service {
             if (db != null) {
                 closeConnection(false);
             }
-            throw new Response(ex.getMessage(),false);
+            throw new FamilyMapException(ex.getMessage(),false);
         }
         closeConnection(true);
-        return new Response("Clear succeeded.", true);
+        return new FamilyMapException("Clear succeeded.", true);
     }
 }

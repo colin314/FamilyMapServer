@@ -14,10 +14,11 @@ public class Database {
         try {
             //The Structure for this Connection is driver:language:path
             //The path assumes you start in the root of your project unless given a non-relative path
-            final String CONNECTION_URL =                 "jdbc:sqlserver://localhost\\DIPPR;" +
+            final String CONNECTION_URL =
+                    "jdbc:sqlserver://localhost\\DIPPR;" +
                     "databaseName=FamilyMapDb;integratedSecurity=false;" +
-                    "encrypt=false;trustServerCertificate=true;" +
-                    "authentication=SqlPassword;user=sa;password=incorrect";
+                            "encrypt=false;trustServerCertificate=true;" +
+                            "authentication=SqlPassword;user=sa;password=incorrect";
 
             // Open a database connection to the file given in the path
             conn = DriverManager.getConnection(CONNECTION_URL);

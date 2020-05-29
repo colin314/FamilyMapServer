@@ -1,19 +1,13 @@
 package UnitTests;
 
 import DataAccess.*;
-import Model.*;
 import Request.LoginRequest;
-import Request.RegisterRequest;
-import Result.PersonIDResponse;
-import Result.PersonResponse;
-import Result.Response;
+import Result.FamilyMapException;
 import Result.UserResponse;
 import Services.LoginService;
-import Services.PersonService;
-import org.junit.Assert;
+import Services.UnauthorizedException;
 import org.junit.jupiter.api.*;
 import java.sql.*;
-import java.util.*;
 
 public class LoginServiceTest {
     private Connection conn = null;
@@ -63,8 +57,11 @@ public class LoginServiceTest {
             LoginService service = new LoginService(conn);
             response = service.loginUser(request);
         }
-        catch (Response r) {
+        catch (FamilyMapException r) {
             throw new AssertionError(r.message);
+        }
+        catch (UnauthorizedException ex) {
+            throw new AssertionError(ex.getMessage());
         }
         Assertions.assertNotNull(response);
         Assertions.assertEquals("62CC127E-477E-45D1-BF6A-B63FB89F075B", response.personID);
@@ -87,7 +84,7 @@ public class LoginServiceTest {
         String badPassword  = "Password";
         LoginRequest request = new LoginRequest(userName, badPassword);
         LoginService service = new LoginService(conn);
-        Assertions.assertThrows(Response.class, () -> service.loginUser(request));
+        Assertions.assertThrows(FamilyMapException.class, () -> service.loginUser(request));
 
     }
 

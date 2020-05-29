@@ -5,7 +5,7 @@ import Model.Event;
 import Model.Person;
 import Model.User;
 import Request.LoadRequest;
-import Result.Response;
+import Result.FamilyMapException;
 
 import java.sql.Connection;
 
@@ -13,11 +13,11 @@ import java.sql.Connection;
  * Responsible for handling load requests.
  */
 public class LoadService extends ClearService {
-    public LoadService() throws Response {
+    public LoadService() throws FamilyMapException {
         super();
     }
 
-    public LoadService(Connection conn) throws Response {
+    public LoadService(Connection conn) throws FamilyMapException {
         super(conn);
     }
 
@@ -27,10 +27,10 @@ public class LoadService extends ClearService {
      * @param request The request with all the data to be loaded into the database.
      * @return A Response object detailing how many users, persons, and events were added
      * to the database
-     * @exception Response if the request data is invalid (missing values, invalid values, etc.)
-     * @exception Response if there was an Internal server error
+     * @exception FamilyMapException if the request data is invalid (missing values, invalid values, etc.)
+     * @exception FamilyMapException if there was an Internal server error
      */
-    public Response loadData(LoadRequest request) throws Response {
+    public FamilyMapException loadData(LoadRequest request) throws FamilyMapException {
         clearDatabase();
         int userCount = 0;
         int personCount = 0;
@@ -42,7 +42,7 @@ public class LoadService extends ClearService {
             }
             catch (DataAccessException ex) {
                 closeConnection(false);
-                throw new Response(ex.getMessage(), false);
+                throw new FamilyMapException(ex.getMessage(), false);
             }
         }
         for (Person person : request.persons) {
@@ -52,7 +52,7 @@ public class LoadService extends ClearService {
             }
             catch (DataAccessException ex) {
                 closeConnection(false);
-                throw new Response(ex.getMessage(), false);
+                throw new FamilyMapException(ex.getMessage(), false);
             }
         }
         for (Event event : request.events) {
@@ -62,7 +62,7 @@ public class LoadService extends ClearService {
             }
             catch (DataAccessException ex) {
                 closeConnection(false);
-                throw new Response(ex.getMessage(), false);
+                throw new FamilyMapException(ex.getMessage(), false);
             }
         }
         StringBuilder builder = new StringBuilder();
@@ -71,7 +71,7 @@ public class LoadService extends ClearService {
         builder.append(" persons and ");
         builder.append(eventCount);
         builder.append(" events to the database.");
-        Response rv = new Response(builder.toString(), true);
+        FamilyMapException rv = new FamilyMapException(builder.toString(), true);
         closeConnection(true);
         return rv;
     }
