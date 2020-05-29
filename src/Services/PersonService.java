@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * Responsible for handling Person requests
  */
 public class PersonService extends AuthService {
-    Database db;
     public PersonService() throws FamilyMapException {
         super();
         try {
@@ -40,7 +39,7 @@ public class PersonService extends AuthService {
      * @exception FamilyMapException if the requested person does not belong to this user.
      * @exception FamilyMapException if there is an Internal server error.
      */
-    public PersonIDResponse getPersonByID(String personID, String authToken) throws FamilyMapException {
+    public PersonIDResponse getPersonByID(String personID, String authToken) throws FamilyMapException, UnauthorizedException {
         String userName = null;
         try {
             userName = verifyToken(authToken);
@@ -51,7 +50,7 @@ public class PersonService extends AuthService {
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token");
+            throw new UnauthorizedException("Invalid auth token");
         }
 
         //Get Event
@@ -66,7 +65,7 @@ public class PersonService extends AuthService {
         }
         closeConnection(true);
         if (!response.associatedUsername.equalsIgnoreCase(userName)) {
-            throw new FamilyMapException("Requested person does not belong to this user");
+            throw new UnauthorizedException("Requested person does not belong to this user");
         }
         return response;
     }
@@ -78,7 +77,7 @@ public class PersonService extends AuthService {
      * @exception FamilyMapException if the auth token is invalid.
      * @exception FamilyMapException if there is an Internal server error.
      */
-    public PersonResponse getPersonByUsername(String authToken) throws FamilyMapException {
+    public PersonResponse getPersonByUsername(String authToken) throws FamilyMapException, UnauthorizedException {
         String userName = null;
         try {
             userName = verifyToken(authToken);
@@ -89,7 +88,7 @@ public class PersonService extends AuthService {
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token");
+            throw new UnauthorizedException("Invalid auth token");
         }
         PersonResponse response = null;
         try {

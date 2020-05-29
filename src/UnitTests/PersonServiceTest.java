@@ -6,6 +6,7 @@ import Result.FamilyMapException;
 import Result.PersonIDResponse;
 import Result.PersonResponse;
 import Services.PersonService;
+import Services.UnauthorizedException;
 import org.junit.jupiter.api.*;
 import java.sql.*;
 
@@ -63,6 +64,9 @@ public class PersonServiceTest {
         catch (FamilyMapException ex) {
             throw new AssertionError(ex.getMessage());
         }
+        catch (UnauthorizedException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
         Assertions.assertTrue(response.personID.equalsIgnoreCase(personID));
     }
     @Test
@@ -75,6 +79,9 @@ public class PersonServiceTest {
             response = service.getPersonByUsername(authToken);
         }
         catch (FamilyMapException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
+        catch (UnauthorizedException ex) {
             throw new AssertionError(ex.getMessage());
         }
         Assertions.assertEquals(3, response.data.size());
