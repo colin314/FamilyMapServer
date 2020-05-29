@@ -13,14 +13,14 @@ USE FamilyMapDb_Tester;
 GO
 
 CREATE TABLE Users (
-	Username NVARCHAR(100),
+	Username NVARCHAR(100) UNIQUE,
 	Person_ID nvarchar(max),
 	User_Password NVARCHAR(50) NOT NULL,
 	Email NVARCHAR(100) NOT NULL
 	)
 
 CREATE TABLE Persons (
-	Person_ID nvarchar(max),
+	Person_ID nvarchar(100) UNIQUE,
 	Username NVARCHAR(100) NOT NULL,
 	First_Name NVARCHAR(100),
 	Last_Name NVARCHAR(100),
@@ -31,7 +31,7 @@ CREATE TABLE Persons (
 	);
 
 CREATE TABLE Events (
-	Event_ID nvarchar(max),
+	Event_ID nvarchar(100) UNIQUE,
 	Username nvarchar(max),
 	Person_ID nvarchar(max) NOT NULL,
 	Latitude float(16),
@@ -43,7 +43,7 @@ CREATE TABLE Events (
 	)
 
 CREATE TABLE AuthTokens (
-	Token nvarchar(max) NOT NULL,
+	Token nvarchar(100) NOT NULL UNIQUE,
 	Username nvarchar(100) NOT NULL
 	)
 GO

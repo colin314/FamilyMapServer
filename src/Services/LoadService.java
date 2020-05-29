@@ -42,7 +42,7 @@ public class LoadService extends ClearService {
             }
             catch (DataAccessException ex) {
                 closeConnection(false);
-                throw new FamilyMapException(ex.getMessage(), false);
+                throw new FamilyMapException(ex.getMessage());
             }
         }
         for (Person person : request.persons) {
@@ -52,7 +52,7 @@ public class LoadService extends ClearService {
             }
             catch (DataAccessException ex) {
                 closeConnection(false);
-                throw new FamilyMapException(ex.getMessage(), false);
+                throw new FamilyMapException(ex.getMessage());
             }
         }
         for (Event event : request.events) {
@@ -62,7 +62,7 @@ public class LoadService extends ClearService {
             }
             catch (DataAccessException ex) {
                 closeConnection(false);
-                throw new FamilyMapException(ex.getMessage(), false);
+                throw new FamilyMapException(ex.getMessage());
             }
         }
         StringBuilder builder = new StringBuilder();
@@ -71,7 +71,7 @@ public class LoadService extends ClearService {
         builder.append(" persons and ");
         builder.append(eventCount);
         builder.append(" events to the database.");
-        FamilyMapException rv = new FamilyMapException(builder.toString(), true);
+        FamilyMapException rv = new FamilyMapException(builder.toString());
         closeConnection(true);
         return rv;
     }

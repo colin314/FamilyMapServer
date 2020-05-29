@@ -70,7 +70,6 @@ public class LoadServiceTest {
         }
         String expected = "Successfully added 2 persons and 1 events to the database.";
         Assertions.assertNotNull(response);
-        Assertions.assertTrue(response.success);
         Assertions.assertEquals(expected, response.message);
     }
 }

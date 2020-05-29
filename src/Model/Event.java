@@ -44,11 +44,11 @@ public class Event {
     public boolean equals(Object obj) {
         if (obj.getClass() == Event.class || obj.getClass() == EventIDResponse.class) {
             Event that = (Event)obj;
-            if (!this.eventID.equals(that.eventID)) { return false; }
+            if (!this.eventID.equalsIgnoreCase(that.eventID)) { return false; }
             if (!this.associatedUsername.equals(that.associatedUsername)) { return false; }
-            if (!this.personID.equals(that.personID)) { return false; }
-            if (!this.country.equals(that.country)) { return false; }
-            if (!this.city.equals(that.city)) { return false; }
+            if (!this.personID.equalsIgnoreCase(that.personID)) { return false; }
+            if (!this.country.equalsIgnoreCase(that.country)) { return false; }
+            if (!this.city.equalsIgnoreCase(that.city)) { return false; }
             if (!this.eventType.equalsIgnoreCase(that.eventType)) { return false; }
             if (this.year != that.year) {return false;}
         }

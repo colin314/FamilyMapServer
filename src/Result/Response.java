@@ -8,7 +8,7 @@ public class Response {
     }
     public Response(FamilyMapException res) {
         message = res.message;
-        success= res.success;
+        success = false;
     }
 
     public String message;

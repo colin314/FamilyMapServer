@@ -33,8 +33,8 @@ public class FamilyMapServer {
     private void registerHandlers(HttpServer server) {
         server.createContext("/", new FileRequestHandler());
         server.createContext("/user/register", new RegisterRequestHandler());
-        server.createContext("/test", new MyHttpHandler());
         server.createContext("/user/login", new LoginHandler());
+        server.createContext("/clear", new ClearHandler());
         //...
     }
 

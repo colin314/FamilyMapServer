@@ -53,7 +53,6 @@ public class FillServiceTest {
             FamilyMapException response = service.fillDatabase("colin314", 2);
             String expected = "Successfully added 5 persons and 15 events to the database.";
             Assertions.assertNotNull(response);
-            Assertions.assertTrue(response.success);
             Assertions.assertEquals(expected, response.message);
         }
         catch (FamilyMapException r) {

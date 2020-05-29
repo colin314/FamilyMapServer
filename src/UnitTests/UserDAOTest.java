@@ -52,8 +52,8 @@ public class UserDAOTest {
     @DisplayName("New User successfully inserted")
     void UserInsert_NewUser_Successful() {
         String newPersonID = UUID.randomUUID().toString();
-        User newUser = new User("noanderson","password", "neil@noanderson.com", "Neil",
-                "Anderson", "m", newPersonID);
+        User newUser = new User("noanderson","password", "neil@noanderson.com", null,
+                null, null, newPersonID);
         Assertions.assertDoesNotThrow(() -> userDAO.insert(newUser));
         try(PreparedStatement stmnt = conn.prepareStatement(String.format("SELECT * FROM " +
                 "Users u LEFT JOIN Persons p ON u.Person_ID = p.Person_ID WHERE u.Person_ID = '%s'",newPersonID))) {

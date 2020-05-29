@@ -72,9 +72,12 @@ public class User {
         }
         if (!this.password.equals(that.password)) {return false;}
         if (!this.email.equalsIgnoreCase(that.email)) {return false;}
-        if (!this.firstName.equalsIgnoreCase(that.firstName)) {return false;}
-        if (!this.lastName.equalsIgnoreCase(that.lastName)) {return false;}
-        if (!this.gender.equalsIgnoreCase(that.gender)){return false;}
+        if ((this.firstName == null ^ that.firstName == null) ||
+                this.lastName != null && !this.firstName.equalsIgnoreCase(that.firstName)) {return false;}
+        if ((this.lastName == null ^ that.lastName == null) ||
+                this.lastName != null && !this.lastName.equalsIgnoreCase(that.lastName)) {return false;}
+        if ((this.gender == null ^ that.gender == null) ||
+                this.gender != null && !this.gender.equalsIgnoreCase(that.gender)){return false;}
         if (!this.personID.equalsIgnoreCase(that.personID)) {return false;}
         return true;
     }

@@ -20,7 +20,7 @@ public class PersonService extends AuthService {
             personDAO = new PersonDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class PersonService extends AuthService {
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token", false);
+            throw new FamilyMapException("Invalid auth token");
         }
 
         //Get Event
@@ -62,11 +62,11 @@ public class PersonService extends AuthService {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
         if (!response.associatedUsername.equalsIgnoreCase(userName)) {
-            throw new FamilyMapException("Requested person does not belong to this user", false);
+            throw new FamilyMapException("Requested person does not belong to this user");
         }
         return response;
     }
@@ -89,7 +89,7 @@ public class PersonService extends AuthService {
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token", false);
+            throw new FamilyMapException("Invalid auth token");
         }
         PersonResponse response = null;
         try {
@@ -98,7 +98,7 @@ public class PersonService extends AuthService {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
         return response;

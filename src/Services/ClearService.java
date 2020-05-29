@@ -2,6 +2,7 @@ package Services;
 
 import DataAccess.*;
 import Result.FamilyMapException;
+import Result.Response;
 
 import java.sql.Connection;
 
@@ -18,7 +19,7 @@ public class ClearService extends Service {
             authTokenDAO = new AuthTokenDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
     }
 
@@ -29,7 +30,6 @@ public class ClearService extends Service {
         personDAO = new PersonDAO(conn);
         authTokenDAO = new AuthTokenDAO(conn);
     }
-    Database db;
     UserDAO userDAO;
     EventDAO eventDAO;
     PersonDAO personDAO;
@@ -40,7 +40,7 @@ public class ClearService extends Service {
      * @return A Response object stating that the operation was successful.
      * @exception FamilyMapException if there was an Internal server error.
      */
-    public FamilyMapException clearDatabase() throws FamilyMapException {
+    public Response clearDatabase() throws FamilyMapException {
         try {
             userDAO.clear();
             eventDAO.clear();
@@ -51,9 +51,9 @@ public class ClearService extends Service {
             if (db != null) {
                 closeConnection(false);
             }
-            throw new FamilyMapException(ex.getMessage(),false);
+            throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
-        return new FamilyMapException("Clear succeeded.", true);
+        return new Response("Clear succeeded.", true);
     }
 }

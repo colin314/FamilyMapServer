@@ -1,5 +1,6 @@
 package Handler;
 
+import Request.BadRequest;
 import Request.RegisterRequest;
 import Result.Response;
 import Result.FamilyMapException;
@@ -14,7 +15,7 @@ import java.net.HttpURLConnection;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class RegisterRequestHandler implements HttpHandler {
+public class RegisterRequestHandler extends Handler implements HttpHandler {
     public RegisterRequestHandler() {}
 
     @Override
@@ -48,7 +49,7 @@ public class RegisterRequestHandler implements HttpHandler {
 
                         //Deserialize the JSON into the request object
                         RegisterRequest request = new Gson().fromJson(reqData, RegisterRequest.class);
-
+                        request.validateRequest();
                         //Generate the response
                         UserResponse response = null;
                         RegisterService service = new RegisterService();
@@ -93,11 +94,10 @@ public class RegisterRequestHandler implements HttpHandler {
             e.printStackTrace();
         }
         catch (FamilyMapException r) {
-            exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
-            OutputStream outputStream = exchange.getResponseBody();
-            String output = new Gson().toJson(new Response(r));
-            outputStream.write(output.getBytes(),0,output.length());
-            exchange.getResponseBody().close();
+            writeError(exchange, r, HttpURLConnection.HTTP_INTERNAL_ERROR);
+        }
+        catch (BadRequest ex) {
+            writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
     }
 

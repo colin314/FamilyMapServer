@@ -84,7 +84,7 @@ public class LoginServiceTest {
         String badPassword  = "Password";
         LoginRequest request = new LoginRequest(userName, badPassword);
         LoginService service = new LoginService(conn);
-        Assertions.assertThrows(FamilyMapException.class, () -> service.loginUser(request));
+        Assertions.assertThrows(UnauthorizedException.class, () -> service.loginUser(request));
 
     }
 

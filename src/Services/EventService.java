@@ -22,7 +22,7 @@ public class EventService extends AuthService{
             eventDAO = new EventDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ public class EventService extends AuthService{
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token", false);
+            throw new FamilyMapException("Invalid auth token");
         }
 
         //Get Event
@@ -64,11 +64,11 @@ public class EventService extends AuthService{
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
         if (!response.associatedUsername.equals(userName)) {
-            throw new FamilyMapException("Requested event does not belong to this user", false);
+            throw new FamilyMapException("Requested event does not belong to this user");
         }
         return response;
     }
@@ -92,7 +92,7 @@ public class EventService extends AuthService{
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token", false);
+            throw new FamilyMapException("Invalid auth token");
         }
         EventResponse response = null;
         try {
@@ -101,7 +101,7 @@ public class EventService extends AuthService{
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
         return response;

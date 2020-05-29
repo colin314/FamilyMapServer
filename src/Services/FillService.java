@@ -24,7 +24,7 @@ public class FillService extends Service{
             authTokenDAO = new AuthTokenDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
     }
 
@@ -77,7 +77,7 @@ public class FillService extends Service{
             User user = userDAO.find(username);
             if (user == null) {
                 closeConnection(false);
-                throw new FamilyMapException("The username does not correspond to a known user", false);
+                throw new FamilyMapException("The username does not correspond to a known user");
             }
             personDAO.clearByUser(username);
             eventDAO.clearByUser(username);
@@ -101,12 +101,12 @@ public class FillService extends Service{
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         int personCount = (int)Math.pow(2.0, generations) + 1;
         int evenCount = personCount * 3;
         String msg = String.format("Successfully added %d persons and %d events to the database.",personCount, evenCount);
-        FamilyMapException rv = new FamilyMapException(msg, true);
+        FamilyMapException rv = new FamilyMapException(msg);
         closeConnection(true);
         return rv;
     }

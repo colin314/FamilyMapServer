@@ -19,4 +19,9 @@ public class LoginRequest {
      * The password for the log in attempt
      */
     public String password;
+
+    public void validate() throws BadRequest {
+        if (userName == null) { throw new BadRequest("No user name was provided in the request."); }
+        if (password == null) {throw new BadRequest("No password was provided in the request."); }
+    }
 }

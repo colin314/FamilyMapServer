@@ -24,7 +24,7 @@ public class LoginService extends Service {
             authTokenDAO = new AuthTokenDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class LoginService extends Service {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
         return response;

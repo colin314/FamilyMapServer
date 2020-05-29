@@ -13,7 +13,7 @@ public abstract class AuthService extends Service {
             tokenDAO = new AuthTokenDAO(db.getConnection());
         }
         catch (DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
     }
 
@@ -30,7 +30,7 @@ public abstract class AuthService extends Service {
             userName = tokenDAO.findUser(tokenStr);
         }
         catch (DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         return userName;
     }

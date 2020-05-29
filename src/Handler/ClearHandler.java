@@ -3,7 +3,9 @@ package Handler;
 import Request.BadRequest;
 import Request.LoginRequest;
 import Result.FamilyMapException;
+import Result.Response;
 import Result.UserResponse;
+import Services.ClearService;
 import Services.LoginService;
 import Services.UnauthorizedException;
 import com.sun.net.httpserver.Headers;
@@ -15,23 +17,16 @@ import java.net.HttpURLConnection;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class LoginHandler extends Handler implements HttpHandler {
-    public LoginHandler() {}
+public class ClearHandler extends Handler implements HttpHandler {
+    public ClearHandler() {}
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
             if (exchange.getRequestMethod().toUpperCase().equals("POST")) {
-                Headers reqHeaders = exchange.getRequestHeaders();
-                InputStream reqBody = exchange.getRequestBody();
-                String reqData = readString(reqBody);
-
-                LoginRequest request = new Gson().fromJson(reqData, LoginRequest.class);
-                request.validate();
-
-                UserResponse response = null;
-                var service = new LoginService();
-                response = service.loginUser(request);
+                Response response = null;
+                var service = new ClearService();
+                response = service.clearDatabase();
 
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                 OutputStream outputStream = exchange.getResponseBody();
@@ -47,12 +42,6 @@ public class LoginHandler extends Handler implements HttpHandler {
         }
         catch (FamilyMapException ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_INTERNAL_ERROR);
-        }
-        catch (UnauthorizedException ex) {
-            writeError(exchange, ex, HttpURLConnection.HTTP_UNAUTHORIZED);
-        }
-        catch (BadRequest ex) {
-            writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
     }
 

@@ -18,6 +18,7 @@ public class RegisterService extends Service {
     UserDAO userDAO;
     PersonDAO personDAO;
     AuthTokenDAO tokenDAO;
+    FillService fillService;
     public RegisterService() throws FamilyMapException {
         super();
         try {
@@ -25,9 +26,10 @@ public class RegisterService extends Service {
             userDAO =  new UserDAO(conn);
             tokenDAO = new AuthTokenDAO(db.getConnection());
             personDAO = new PersonDAO(db.getConnection());
+            fillService = new FillService(db.getConnection());
         }
         catch(DataAccessException ex) {
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
     }
 
@@ -37,6 +39,7 @@ public class RegisterService extends Service {
         userDAO =  new UserDAO(conn);
         tokenDAO = new AuthTokenDAO(conn);
         personDAO = new PersonDAO(conn);
+        fillService = new FillService(conn);
     }
 
     /**
@@ -59,17 +62,11 @@ public class RegisterService extends Service {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(),false);
+            throw new FamilyMapException(ex.getMessage());
         }
         //Generate 4 generations of data
-        try {
-            FillService fillService = new FillService(db.getConnection());
-            fillService.fillDatabase(newUser.userName);
-        }
-        catch (DataAccessException ex) {
-            closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
-        }
+
+        fillService.fillDatabase(newUser.userName);
         //Generate Token
         AuthToken token = new AuthToken(UUID.randomUUID().toString(), newUser.userName);
         try {
@@ -77,7 +74,7 @@ public class RegisterService extends Service {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage(), false);
+            throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
         UserResponse response = new UserResponse(token.token, newUser.userName, newUser.personID);

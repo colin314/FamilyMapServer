@@ -63,7 +63,7 @@ public class PersonServiceTest {
         catch (FamilyMapException ex) {
             throw new AssertionError(ex.message);
         }
-        Assertions.assertTrue(response.personID.equals(personID));
+        Assertions.assertTrue(response.personID.equalsIgnoreCase(personID));
     }
     @Test
     @DisplayName("All Persons found for user")
