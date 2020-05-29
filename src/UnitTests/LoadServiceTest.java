@@ -3,6 +3,7 @@ package UnitTests;
 import Model.*;
 import Request.LoadRequest;
 import Result.FamilyMapException;
+import Result.Response;
 import Services.LoadService;
 import org.junit.jupiter.api.*;
 import java.sql.*;
@@ -60,7 +61,7 @@ public class LoadServiceTest {
         events[0] = new Event(UUID.randomUUID().toString(), "george", georgeUUID, 500, 340, "France",
                 "Paris", "Birth", 1950);
         LoadRequest request = new LoadRequest(users, persons, events);
-        FamilyMapException response = null;
+        Response response = null;
         try {
             LoadService service = new LoadService(conn);
             response = service.loadData(request);
@@ -70,6 +71,6 @@ public class LoadServiceTest {
         }
         String expected = "Successfully added 2 persons and 1 events to the database.";
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(expected, response.getMessage());
+        Assertions.assertEquals(expected, response.message);
     }
 }

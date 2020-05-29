@@ -29,4 +29,10 @@ public class LoadRequest {
      */
     public Event[] events;
 
+    public void validate() throws BadRequest {
+        if (users == null) {throw new BadRequest("No users provided in request");}
+        if (persons == null) {throw new BadRequest("No persons provided in request");}
+        if (events == null) {throw new BadRequest("No events provided in request");}
+    }
+
 }

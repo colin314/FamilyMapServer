@@ -25,9 +25,9 @@ CREATE TABLE Persons (
 	First_Name NVARCHAR(100),
 	Last_Name NVARCHAR(100),
 	Gender NVARCHAR(1) NOT NULL,
-	Father_ID UNIQUEIDENTIFIER,
-	Mother_ID UNIQUEIDENTIFIER,
-	Spouse_ID UNIQUEIDENTIFIER,
+	Father_ID nvarchar(100),
+	Mother_ID nvarchar(100),
+	Spouse_ID nvarchar(100),
 	);
 
 CREATE TABLE Events (
