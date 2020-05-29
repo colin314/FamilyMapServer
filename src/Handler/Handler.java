@@ -14,7 +14,8 @@ public abstract class Handler {
     protected void writeError(HttpExchange exchange, Throwable ex, int responseCode) throws IOException {
         exchange.sendResponseHeaders(responseCode, 0);
         OutputStream outputStream = exchange.getResponseBody();
-        String output = new Gson().toJson(new Response(ex.getMessage(), false));
+        Response res = new Response(ex.getMessage(), false);
+        String output = new Gson().toJson(res);
         outputStream.write(output.getBytes());
         exchange.getResponseBody().close();
     }

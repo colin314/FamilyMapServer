@@ -57,7 +57,7 @@ public class ClearServiceTest {
             Assertions.assertDoesNotThrow(() -> finalService.clearDatabase());
         }
         catch (FamilyMapException ex) {
-            throw new AssertionError(ex.message);
+            throw new AssertionError(ex.getMessage());
         }
         try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Users")){
             ResultSet rs = stmt.executeQuery();

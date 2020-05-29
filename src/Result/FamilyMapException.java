@@ -1,10 +1,8 @@
 package Result;
 
 public class FamilyMapException extends Throwable {
-    public FamilyMapException() {}
+    public FamilyMapException() { super(); }
     public FamilyMapException(String message) {
-        this.message = message;
+        super(message);
     }
-
-    public String message;
 }

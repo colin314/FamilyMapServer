@@ -6,6 +6,7 @@ import Model.Event;
 import Model.Person;
 import Model.User;
 import Result.FamilyMapException;
+import Result.Response;
 import com.github.javafaker.Faker;
 import java.sql.Connection;
 import java.util.Random;
@@ -53,7 +54,7 @@ public class FillService extends Service{
      * @exception FamilyMapException if the username is invalid.
      * @exception FamilyMapException if there was an Internal server error.
      */
-    public FamilyMapException fillDatabase(String username) throws FamilyMapException {
+    public Response fillDatabase(String username) throws FamilyMapException {
         return fillDatabase(username, 4);
     }
 
@@ -71,7 +72,7 @@ public class FillService extends Service{
      * @exception FamilyMapException if the username or generations parameter is invalid.
      * @exception FamilyMapException if there was an Internal server error.
      */
-    public FamilyMapException fillDatabase(String username, int generations) throws FamilyMapException {
+    public Response fillDatabase(String username, int generations) throws FamilyMapException {
         //Make sure user is registered
         try {
             User user = userDAO.find(username);
@@ -106,7 +107,7 @@ public class FillService extends Service{
         int personCount = (int)Math.pow(2.0, generations) + 1;
         int evenCount = personCount * 3;
         String msg = String.format("Successfully added %d persons and %d events to the database.",personCount, evenCount);
-        FamilyMapException rv = new FamilyMapException(msg);
+        var rv = new Response(msg, true);
         closeConnection(true);
         return rv;
     }

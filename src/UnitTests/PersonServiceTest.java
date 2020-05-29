@@ -61,7 +61,7 @@ public class PersonServiceTest {
             response = service.getPersonByID(personID, authToken);
         }
         catch (FamilyMapException ex) {
-            throw new AssertionError(ex.message);
+            throw new AssertionError(ex.getMessage());
         }
         Assertions.assertTrue(response.personID.equalsIgnoreCase(personID));
     }
@@ -75,7 +75,7 @@ public class PersonServiceTest {
             response = service.getPersonByUsername(authToken);
         }
         catch (FamilyMapException ex) {
-            throw new AssertionError(ex.message);
+            throw new AssertionError(ex.getMessage());
         }
         Assertions.assertEquals(3, response.data.size());
     }

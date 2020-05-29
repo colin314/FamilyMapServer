@@ -59,7 +59,7 @@ public class RegisterServiceTest {
             actual = service.registerUser(request);
         }
         catch (FamilyMapException ex) {
-            throw new AssertionError(ex.message);
+            throw new AssertionError(ex.getMessage());
         }
         Assertions.assertTrue(actual.userName.equalsIgnoreCase("neilO"));
 

@@ -49,6 +49,7 @@ public class RegisterRequestHandler extends Handler implements HttpHandler {
 
                         //Deserialize the JSON into the request object
                         RegisterRequest request = new Gson().fromJson(reqData, RegisterRequest.class);
+                        if (request == null) { throw new BadRequest("The request body was invalid"); }
                         request.validateRequest();
                         //Generate the response
                         UserResponse response = null;

@@ -58,7 +58,7 @@ public class LoginServiceTest {
             response = service.loginUser(request);
         }
         catch (FamilyMapException r) {
-            throw new AssertionError(r.message);
+            throw new AssertionError(r.getMessage());
         }
         catch (UnauthorizedException ex) {
             throw new AssertionError(ex.getMessage());

@@ -62,7 +62,7 @@ public class EventServiceTest {
             response = service.getEventByID(eventID, authToken);
         }
         catch (FamilyMapException ex) {
-            throw new AssertionError(ex.message);
+            throw new AssertionError(ex.getMessage());
         }
         Assertions.assertTrue(response.equals(expected));
     }
@@ -76,7 +76,7 @@ public class EventServiceTest {
             response = service.getEventByUser(authToken);
         }
         catch (FamilyMapException ex) {
-            throw new AssertionError(ex.message);
+            throw new AssertionError(ex.getMessage());
         }
         Assertions.assertEquals(2, response.data.size());
     }

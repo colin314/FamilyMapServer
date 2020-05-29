@@ -7,7 +7,7 @@ public class Response {
         this.success = success;
     }
     public Response(FamilyMapException res) {
-        message = res.message;
+        message = res.getMessage();
         success = false;
     }
 

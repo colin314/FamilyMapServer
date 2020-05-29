@@ -42,7 +42,6 @@ public class FillServiceTest {
             e.printStackTrace();
             throw e;
         }
-
     }
 
     @Test
@@ -50,13 +49,13 @@ public class FillServiceTest {
     void fill_Success() {
         try {
             FillService service = new FillService(conn);
-            FamilyMapException response = service.fillDatabase("colin314", 2);
+            var response = service.fillDatabase("colin314", 2);
             String expected = "Successfully added 5 persons and 15 events to the database.";
             Assertions.assertNotNull(response);
             Assertions.assertEquals(expected, response.message);
         }
         catch (FamilyMapException r) {
-            throw new AssertionError(r.message);
+            throw new AssertionError(r.getMessage());
         }
     }
 }
