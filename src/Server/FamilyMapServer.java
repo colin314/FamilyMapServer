@@ -8,9 +8,10 @@ import Handler.*;
 public class FamilyMapServer {
 
     public static void main(String[] args) {
+        int port = Integer.parseInt(args[0]);
         FamilyMapServer server = new FamilyMapServer();
         try {
-            server.startServer(5000);
+            server.startServer(port);
         }
         catch (IOException ex) {
 
@@ -22,7 +23,7 @@ public class FamilyMapServer {
         HttpServer server = HttpServer.create(serverAddress, 10);
         registerHandlers(server);
         server.start();
-        System.out.println("FamilyMapServer listening on port " + port);
+        System.out.println("Server.FamilyMapServer listening on port " + port);
     }
 
     private void registerHandlers(HttpServer server) {

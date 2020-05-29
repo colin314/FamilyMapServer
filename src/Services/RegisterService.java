@@ -19,6 +19,12 @@ public class RegisterService extends Service {
     PersonDAO personDAO;
     AuthTokenDAO tokenDAO;
     FillService fillService;
+
+    /**
+     * Creates a connection to the database and opens it.
+     * @throws FamilyMapException if there is a problem opening the connections (bad login, bad server address
+     * etc.)
+     */
     public RegisterService() throws FamilyMapException {
         super();
         try {
@@ -33,7 +39,11 @@ public class RegisterService extends Service {
         }
     }
 
-    public RegisterService(Connection conn) throws FamilyMapException {
+    /**
+     * Allows an existing connection to be used in this service.
+     * @param conn An existing open database connection
+     */
+    public RegisterService(Connection conn) {
         super(conn);
         db = null;
         userDAO =  new UserDAO(conn);
@@ -52,23 +62,22 @@ public class RegisterService extends Service {
      * @exception FamilyMapException if there was an Internal server error.
      */
     public UserResponse registerUser(RegisterRequest request) throws FamilyMapException {
-        //Create User
         User newUser = new User(request);
         try {
             userDAO.insert(newUser);
-            User user = userDAO.find(request.userName);
-            Person newPerson = new Person(user.personID, user.userName, newUser.firstName, newUser.lastName, newUser.gender, null, null, null);
+            var user = userDAO.find(request.userName);
+            var newPerson = new Person(user.getPersonID(), user.getUserName(), newUser.getFirstName(),
+                    newUser.getLastName(), newUser.getGender(), null, null, null);
             personDAO.insert(newPerson);
         }
         catch (DataAccessException ex) {
             closeConnection(false);
             throw new FamilyMapException(ex.getMessage());
         }
-        //Generate 4 generations of data
 
-        fillService.fillDatabase(newUser.userName);
-        //Generate Token
-        AuthToken token = new AuthToken(UUID.randomUUID().toString(), newUser.userName);
+        fillService.fillDatabase(newUser.getUserName());
+
+        AuthToken token = new AuthToken(UUID.randomUUID().toString(), newUser.getUserName());
         try {
             tokenDAO.insert(token);
         }
@@ -77,7 +86,7 @@ public class RegisterService extends Service {
             throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
-        UserResponse response = new UserResponse(token.token, newUser.userName, newUser.personID);
+        UserResponse response = new UserResponse(token.token, newUser.getUserName(), newUser.getPersonID());
         return response;
     }
 }

@@ -25,11 +25,13 @@ public class PersonHandler extends Handler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         try {
             if (exchange.getRequestMethod().toUpperCase().equals("GET")) {
+                String url = exchange.toString();
                 Headers reqHeaders = exchange.getRequestHeaders();
                 if (reqHeaders.containsKey("Authorization")) {
                     String authToken = reqHeaders.getFirst("Authorization");
-                    if (reqHeaders.containsKey("personID")) {
-                        String personID = reqHeaders.getFirst("personID");
+                    String uri = exchange.getRequestURI().getPath();
+                    String personID = uri.substring(uri.lastIndexOf('/') + 1);
+                    if (!personID.equalsIgnoreCase("person")) {
                         PersonIDResponse response = null;
                         var service = new PersonService();
                         response = service.getPersonByID(personID, authToken);
@@ -63,7 +65,7 @@ public class PersonHandler extends Handler implements HttpHandler {
             writeError(exchange, ex, HttpURLConnection.HTTP_INTERNAL_ERROR);
         }
         catch (UnauthorizedException ex) {
-            writeError(exchange, ex, HttpURLConnection.HTTP_UNAUTHORIZED);
+            writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
         catch (BadRequest ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);

@@ -55,7 +55,7 @@ public class EventServiceTest {
         String eventID = "44B4C8E6-8261-42C0-8779-C646433B281A";
         String authToken = "C0EB66BB-8FF9-4131-BEF9-6090100DC1C2";
         EventIDResponse expected = new EventIDResponse(new Event(eventID, "colin314",
-                "27E87F19-380A-4213-A38F-13E2529FF114", 150.5, 160.7, "United States",
+                "27E87F19-380A-4213-A38F-13E2529FF114", 150.5f, 160.7f, "United States",
                 "Lodi", "Birth", 1962));
         EventIDResponse response;
         try {

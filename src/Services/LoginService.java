@@ -51,13 +51,13 @@ public class LoginService extends Service {
             if (user == null) {
                 throw new UnauthorizedException("The given username does not correspond to a known user");
             }
-            if (!user.password.equals(request.password)) {
+            if (!user.getPassword().equals(request.password)) {
                 throw new UnauthorizedException("The given username and password do not match");
             }
             String newToken = UUID.randomUUID().toString();
-            AuthToken token = new AuthToken(newToken, user.userName);
+            AuthToken token = new AuthToken(newToken, user.getUserName());
             authTokenDAO.insert(token);
-            response = new UserResponse(newToken, user.userName, user.personID);
+            response = new UserResponse(newToken, user.getUserName(), user.getPersonID());
         }
         catch (DataAccessException ex) {
             closeConnection(false);

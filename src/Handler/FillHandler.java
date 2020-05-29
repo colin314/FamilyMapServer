@@ -20,11 +20,14 @@ public class FillHandler extends Handler implements HttpHandler {
         try {
             if (exchange.getRequestMethod().toUpperCase().equals("POST")) {
                 Headers reqHeaders = exchange.getRequestHeaders();
-                if (reqHeaders.containsKey("username")) {
-                    String userName = reqHeaders.getFirst("username");
+                String query = exchange.getRequestURI().getPath();
+                String userName = query.substring(query.indexOf('/', 5) + 1,query.lastIndexOf('/'));
+                String genStr = query.substring(query.lastIndexOf('/') + 1);
+                if (!userName.equals("")) {
+                    //String userName = reqHeaders.getFirst("username");
                     int generations = 4;
-                    if (reqHeaders.containsKey("generations")) {
-                        generations = Integer.parseInt(reqHeaders.getFirst("generations"));
+                    if (!genStr.equals("")) {
+                        generations = Integer.parseInt(genStr);
                     }
 
                     Response response = null;

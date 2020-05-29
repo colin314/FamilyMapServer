@@ -27,11 +27,12 @@ public class EventHandler extends Handler implements HttpHandler {
                 Headers reqHeaders = exchange.getRequestHeaders();
                 if (reqHeaders.containsKey("Authorization")) {
                     String authToken = reqHeaders.getFirst("Authorization");
+                    String uri = exchange.getRequestURI().getPath();
+                    String eventID = uri.substring(uri.lastIndexOf('/') + 1);
                     var service = new EventService();
-                    if (reqHeaders.containsKey("eventID")) {
-                        String personID = reqHeaders.getFirst("eventID");
+                    if (!eventID.equalsIgnoreCase("event")) {
                         EventIDResponse response = null;
-                        response = service.getEventByID(personID, authToken);
+                        response = service.getEventByID(eventID, authToken);
 
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                         OutputStream outputStream = exchange.getResponseBody();
@@ -61,7 +62,7 @@ public class EventHandler extends Handler implements HttpHandler {
             writeError(exchange, ex, HttpURLConnection.HTTP_INTERNAL_ERROR);
         }
         catch (UnauthorizedException ex) {
-            writeError(exchange, ex, HttpURLConnection.HTTP_UNAUTHORIZED);
+            writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
         catch (BadRequest ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);

@@ -25,10 +25,10 @@ public class UserDAO {
             //            //Using the statements built-in set(type) functions we can pick the question mark we want
             //            //to fill in and give it a proper value. The first argument corresponds to the first
             //question mark found in our sql String
-            stmt.setString(1, user.userName);
-            stmt.setString(2, user.personID);
-            stmt.setString(3, user.password);
-            stmt.setString(4, user.email);
+            stmt.setString(1, user.getUserName());
+            stmt.setString(2, user.getPersonID());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getEmail());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

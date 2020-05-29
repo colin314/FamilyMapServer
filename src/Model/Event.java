@@ -17,7 +17,7 @@ public class Event {
         this.year = event.year;
     }
 
-    public Event(String eventID, String associatedUsername, String personID, double latitude, double longitude,
+    public Event(String eventID, String associatedUsername, String personID, float latitude, float longitude,
                  String country, String city, String eventType, int year) {
         this.eventID = eventID;
         this.associatedUsername = associatedUsername;
@@ -33,8 +33,8 @@ public class Event {
     public String eventID;
     public String associatedUsername;
     public String personID;
-    public double latitude;
-    public double longitude;
+    public float latitude;
+    public float longitude;
     public String country;
     public String city;
     public String eventType;

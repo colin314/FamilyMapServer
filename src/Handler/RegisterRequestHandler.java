@@ -33,12 +33,7 @@ public class RegisterRequestHandler extends Handler implements HttpHandler {
             if (exchange.getRequestMethod().toUpperCase().equals("POST")) {
                 // Get the HTTP request headers
                 Headers reqHeaders = exchange.getRequestHeaders();
-                // Check to see if an "Authorization" header is present
-                if (reqHeaders.containsKey("Authorization")) {
-                    // Extract the auth token from the "Authorization" header
-                    String authToken = reqHeaders.getFirst("Authorization");
-                    // Verify that the auth token is the one we're looking for
-                    if (authToken.equals("afj232hj2332")) {
+
                         // Extract the JSON string from the HTTP request body
 
                         // Get the request body input stream
@@ -62,16 +57,7 @@ public class RegisterRequestHandler extends Handler implements HttpHandler {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                         OutputStream outputStream = exchange.getResponseBody();
                         outputStream.write(new Gson().toJson(response).getBytes());
-                    } else {
-                        // The auth token was invalid somehow, so we return a "not authorized"
-                        // status code to the client.
-                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_UNAUTHORIZED, 0);
-                    }
-                } else {
-                    // We did not get an auth token, so we return a "not authorized"
-                    // status code to the client.
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_UNAUTHORIZED, 0);
-                }
+
             } else {
                 // We expected a POST but got something else, so we return a "bad request"
                 // status code to the client.
@@ -85,7 +71,7 @@ public class RegisterRequestHandler extends Handler implements HttpHandler {
             // Some kind of internal error has occurred inside the server (not the
             // client's fault), so we return an "internal server error" status code
             // to the client.
-            exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
 
             // We are not sending a response body, so close the response body
             // output stream, indicating that the response is complete.
@@ -95,7 +81,7 @@ public class RegisterRequestHandler extends Handler implements HttpHandler {
             e.printStackTrace();
         }
         catch (FamilyMapException r) {
-            writeError(exchange, r, HttpURLConnection.HTTP_INTERNAL_ERROR);
+            writeError(exchange, r, HttpURLConnection.HTTP_BAD_REQUEST);
         }
         catch (BadRequest ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);

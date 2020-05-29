@@ -91,8 +91,10 @@ public class LoadService extends Service {
         }
         StringBuilder builder = new StringBuilder();
         builder.append("Successfully added ");
+        builder.append(userCount);
+        builder.append(" users, ");
         builder.append(personCount);
-        builder.append(" persons and ");
+        builder.append(" persons, and ");
         builder.append(eventCount);
         builder.append(" events to the database.");
         var rv = new Response(builder.toString(), true);

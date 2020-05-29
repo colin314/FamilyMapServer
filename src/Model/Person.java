@@ -79,6 +79,10 @@ public class Person {
     }
 
     /**
+     * ID of the person
+     */
+    public String personID;
+    /**
      * Username to which this person belongs
      */
     public String associatedUsername;
@@ -106,10 +110,7 @@ public class Person {
      * Person ID of person's spouse (possibly null)
      */
     public String spouseID;
-    /**
-     * ID of the person
-     */
-    public String personID;
+
 
     @Override
     public boolean equals(Object obj) {

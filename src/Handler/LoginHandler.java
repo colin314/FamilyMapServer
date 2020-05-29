@@ -49,7 +49,7 @@ public class LoginHandler extends Handler implements HttpHandler {
             writeError(exchange, ex, HttpURLConnection.HTTP_INTERNAL_ERROR);
         }
         catch (UnauthorizedException ex) {
-            writeError(exchange, ex, HttpURLConnection.HTTP_UNAUTHORIZED);
+            writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
         catch (BadRequest ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);

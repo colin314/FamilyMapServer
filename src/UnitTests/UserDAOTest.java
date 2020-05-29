@@ -85,7 +85,7 @@ public class UserDAOTest {
                 "Kye", "Davis", "m", "D8B340FC-F421-4472-8D08-FB28D3D5138F");
         User actualUser = null;
         try {
-            actualUser = userDAO.find(expectedUser.userName);
+            actualUser = userDAO.find(expectedUser.getUserName());
         }
         catch (DataAccessException e) {
             e.printStackTrace();

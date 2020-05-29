@@ -83,20 +83,19 @@ public class FillService extends Service{
             personDAO.clearByUser(username);
             eventDAO.clearByUser(username);
             //Recreate the user's Person object
-            Person rootPerson = new Person(user.personID, user.userName, user.firstName, user.lastName,
-                    user.gender, null, null, null);
-            Event rootBirth = new Event(UUID.randomUUID().toString(), user.userName, rootPerson.getPersonID(),
+            Person rootPerson = new Person(user.getPersonID(), user.getUserName(), user.getFirstName(),
+                    user.getLastName(), user.getGender(), null, null, null);
+            Event rootBirth = new Event(UUID.randomUUID().toString(), user.getUserName(), rootPerson.getPersonID(),
                     getRandomFloat(-90, 90), getRandomFloat(-180, 180), faker.address().country(),
                     faker.address().city(), "Birth", faker.number().numberBetween(1900, 2012));
 
             FamilyTreeNode rootNode = new FamilyTreeNode(rootPerson);
             rootNode.setEvents(new Event[3]);
             rootNode.getEvents()[0] = rootBirth;
+            populateTree(rootNode, 0, generations);
 
             personDAO.insert(rootPerson);
             eventDAO.insert(rootBirth);
-
-            populateTree(rootNode, 0, generations);
             fillDatabase(rootNode.getFather());
             fillDatabase(rootNode.getMother());
         }
@@ -104,7 +103,7 @@ public class FillService extends Service{
             closeConnection(false);
             throw new FamilyMapException(ex.getMessage());
         }
-        int personCount = (int)Math.pow(2.0, generations) + 1;
+        int personCount = (int)Math.pow(2.0D, (generations + 1)) - 1;
         int evenCount = personCount * 3;
         String msg = String.format("Successfully added %d persons and %d events to the database.",personCount, evenCount);
         var rv = new Response(msg, true);
@@ -149,13 +148,13 @@ public class FillService extends Service{
             int fatherDeath = faker.number().numberBetween(childBirth, fatherBirth + 120);
             int motherDeath = faker.number().numberBetween(childBirth, motherBirth + 120);
             
-            int minMarriage = Math.max(fatherBirth + 12, motherBirth + 12);
+            int minMarriage = Math.max(fatherBirth + 13, motherBirth + 13);
             int maxMarriage = childBirth - 1;
             int marriageYear = faker.number().numberBetween(minMarriage, maxMarriage);
             String marriageCountry = faker.address().country();
             String marriageCity = faker.address().city();
-            double marriageLat = getRandomFloat(-90, 90);
-            double marriageLong = getRandomFloat(-180, 180);
+            float marriageLat = getRandomFloat(-90, 90);
+            float marriageLong = getRandomFloat(-180, 180);
 
             Person father = new Person(UUID.randomUUID().toString(), child.getAssociatedUsername(),
                     faker.name().firstName(), faker.name().lastName(), "m", null, null, null);
@@ -197,8 +196,8 @@ public class FillService extends Service{
 
     }
 
-    private double getRandomFloat(double min, double max) {
-        double randNum = min + new Random().nextFloat() * (max - min);
+    private float getRandomFloat(float min, float max) {
+        float randNum = min + new Random().nextFloat() * (max - min);
         return randNum;
     }
 
