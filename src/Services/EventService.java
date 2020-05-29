@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * Responsible for handling requests for events.
  */
 public class EventService extends AuthService{
-    Database db;
     public EventService() throws FamilyMapException {
         super();
         try {
@@ -42,7 +41,7 @@ public class EventService extends AuthService{
      * @exception FamilyMapException if the requested event does not belong to this user.
      * @exception FamilyMapException if there is an Internal server error.
      */
-    public EventIDResponse getEventByID(String eventID, String authToken) throws FamilyMapException {
+    public EventIDResponse getEventByID(String eventID, String authToken) throws FamilyMapException, UnauthorizedException {
         String userName = null;
         try {
             userName = verifyToken(authToken);
@@ -53,7 +52,7 @@ public class EventService extends AuthService{
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token");
+            throw new UnauthorizedException("Invalid auth token");
         }
 
         //Get Event
@@ -68,7 +67,7 @@ public class EventService extends AuthService{
         }
         closeConnection(true);
         if (!response.associatedUsername.equals(userName)) {
-            throw new FamilyMapException("Requested event does not belong to this user");
+            throw new UnauthorizedException("Requested event does not belong to this user");
         }
         return response;
     }
@@ -81,7 +80,7 @@ public class EventService extends AuthService{
      * @exception FamilyMapException if the auth token is invalid.
      * @exception FamilyMapException if there is an Internal server error.
      */
-    public EventResponse getEventByUser(String authToken) throws FamilyMapException {
+    public EventResponse getEventByUser(String authToken) throws FamilyMapException, UnauthorizedException {
         String userName = null;
         try {
             userName = verifyToken(authToken);
@@ -92,7 +91,7 @@ public class EventService extends AuthService{
         }
         if (userName == null) {
             closeConnection(false);
-            throw new FamilyMapException("Invalid auth token");
+            throw new UnauthorizedException("Invalid auth token");
         }
         EventResponse response = null;
         try {

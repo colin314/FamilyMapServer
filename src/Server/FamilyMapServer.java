@@ -1,13 +1,8 @@
 package Server;
 
 import com.sun.net.httpserver.HttpServer;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.net.URL;
-import java.util.logging.LogManager;
 import Handler.*;
 
 public class FamilyMapServer {
@@ -38,7 +33,7 @@ public class FamilyMapServer {
         server.createContext("/fill", new FillHandler());
         server.createContext("/load", new LoadHandler());
         server.createContext("/person", new PersonHandler());
-        //...
+        server.createContext("/event", new EventHandler());
     }
 
 }

@@ -6,6 +6,7 @@ import Result.EventIDResponse;
 import Result.EventResponse;
 import Result.FamilyMapException;
 import Services.EventService;
+import Services.UnauthorizedException;
 import org.junit.jupiter.api.*;
 import java.sql.*;
 
@@ -64,6 +65,9 @@ public class EventServiceTest {
         catch (FamilyMapException ex) {
             throw new AssertionError(ex.getMessage());
         }
+        catch (UnauthorizedException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
         Assertions.assertTrue(response.equals(expected));
     }
     @Test
@@ -76,6 +80,9 @@ public class EventServiceTest {
             response = service.getEventByUser(authToken);
         }
         catch (FamilyMapException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
+        catch (UnauthorizedException ex) {
             throw new AssertionError(ex.getMessage());
         }
         Assertions.assertEquals(2, response.data.size());
