@@ -1,6 +1,5 @@
 package Services;
 
-
 import DataAccess.*;
 import Model.Event;
 import Model.Person;
@@ -8,14 +7,25 @@ import Model.User;
 import Result.FamilyMapException;
 import Result.Response;
 import com.github.javafaker.Faker;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.sql.Connection;
-import java.util.Random;
+import java.util.ArrayList;
 import java.util.UUID;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 /**
  * Responsible for executing fill requests.
  */
 public class FillService extends Service{
+    /**
+     * Creates a connection to the database and opens it.
+     * @throws FamilyMapException if there is a problem opening the connections (bad login, bad server address
+     * etc.)
+     */
     public FillService() throws FamilyMapException {
         super();
         try {
@@ -28,7 +38,10 @@ public class FillService extends Service{
             throw new FamilyMapException(ex.getMessage());
         }
     }
-
+    /**
+     * Allows an existing connection to be used in this service.
+     * @param conn An existing open database connection
+     */
     public FillService(Connection conn) {
         super(conn);
         userDAO = new UserDAO(conn);
@@ -41,14 +54,12 @@ public class FillService extends Service{
     PersonDAO personDAO;
     EventDAO eventDAO;
     AuthTokenDAO authTokenDAO;
-    int personCount = 0;
-    int eventCount = 0;
     Faker faker = new Faker();
 
     /**
      * Overload of {@code fillDatabase(String username, int generations)} that puts in
      * default value of 4 for {@code generations} parameter.
-     * @param username The username to excute the fill for.
+     * @param username The username to execute the fill for.
      * @return A Response object detailing how many persons and events were added to
      * the database.
      * @exception FamilyMapException if the username is invalid.
@@ -73,35 +84,44 @@ public class FillService extends Service{
      * @exception FamilyMapException if there was an Internal server error.
      */
     public Response fillDatabase(String username, int generations) throws FamilyMapException {
-        //Make sure user is registered
         try {
             User user = userDAO.find(username);
             if (user == null) {
                 closeConnection(false);
-                throw new FamilyMapException("The username does not correspond to a known user");
+                throw new FamilyMapException("Error executing fill, the given username does not correspond" +
+                        String.format("to a known username. Given username: %s", username));
             }
             personDAO.clearByUser(username);
-            eventDAO.clearByUser(username);
-            //Recreate the user's Person object
+            eventDAO .clearByUser(username);
+
+            //Generate User's Person
             Person rootPerson = new Person(user.getPersonID(), user.getUserName(), user.getFirstName(),
                     user.getLastName(), user.getGender(), null, null, null);
+            Location birthLoc = getRandomLocation();
             Event rootBirth = new Event(UUID.randomUUID().toString(), user.getUserName(), rootPerson.getPersonID(),
-                    getRandomFloat(-90, 90), getRandomFloat(-180, 180), faker.address().country(),
-                    faker.address().city(), "Birth", faker.number().numberBetween(1900, 2012));
+                    birthLoc.latitude, birthLoc.longitude, birthLoc.country, birthLoc.city,
+                    "Birth", faker.number().numberBetween(1900, 2012));
 
+            //Populate family tree
             FamilyTreeNode rootNode = new FamilyTreeNode(rootPerson);
             rootNode.setEvents(new Event[3]);
             rootNode.getEvents()[0] = rootBirth;
             populateTree(rootNode, 0, generations);
 
+            //Transfer family tree to database
             personDAO.insert(rootPerson);
             eventDAO.insert(rootBirth);
             fillDatabase(rootNode.getFather());
             fillDatabase(rootNode.getMother());
         }
         catch (DataAccessException ex) {
-            closeConnection(false);
             throw new FamilyMapException(ex.getMessage());
+        }
+        catch (FileNotFoundException ex) {
+            throw new FamilyMapException(ex.getMessage());
+        }
+        finally {
+            closeConnection(false);
         }
         int personCount = (int)Math.pow(2.0D, (generations + 1)) - 1;
         int evenCount = personCount * 3;
@@ -111,98 +131,132 @@ public class FillService extends Service{
         return rv;
     }
 
+    /**
+     * Recursively creates a family tree from the given node.
+     * @param childNode The current child node
+     * @param depth The current "depth" of the tree (number of generations from root child)
+     * @param maxDepth The maximum "depth" of the tree
+     * @throws FamilyMapException if necessary files for generating random data are not found.
+     */
     private void populateTree(FamilyTreeNode childNode, int depth, int maxDepth) throws FamilyMapException {
-        if (!(depth < maxDepth)) {
-            return;
+        try {
+            if (!(depth < maxDepth)) {
+                return;
+            }
+            generateParents(childNode);
+            populateTree(childNode.getFather(), depth + 1, maxDepth);
+            populateTree(childNode.getMother(), depth + 1, maxDepth);
         }
-        generateParents(childNode);
-        populateTree(childNode.getFather(), depth + 1, maxDepth);
-        populateTree(childNode.getMother(), depth + 1, maxDepth);
+        catch (FileNotFoundException ex) {
+            throw new FamilyMapException(ex.getMessage());
+        }
     }
 
+    /**
+     * Recursively fills the database with the information stored in the family tree.
+     * @param childNode The current child node
+     * @throws DataAccessException if there is an error inserting the record into the database (such
+     * as a duplicate key)
+     */
     private void fillDatabase(FamilyTreeNode childNode) throws DataAccessException {
         if (childNode == null) {
             return;
         }
-    //Insert Person
+
         personDAO.insert(childNode.thisPerson);
-    //Insert Events
+
         for (Event event : childNode.getEvents()) {
             eventDAO.insert(event);
         }
-    //Insert Parents
+
         fillDatabase(childNode.getFather());
         fillDatabase(childNode.getMother());
     }
 
-    private void generateParents(FamilyTreeNode childNode){
+    /**
+     * Creates parents for the given childNode that meet required
+     * constraints (born 13 years or more before the child is born, etc.)
+     * @param childNode The node that corresponds to the current child.
+     */
+    private void generateParents(FamilyTreeNode childNode) throws FileNotFoundException {
+        //Generate person objects (father & mother)
+        Person child = childNode.getThisPerson();
+        Person father = new Person(UUID.randomUUID().toString(), child.getAssociatedUsername(),
+                faker.name().firstName(), faker.name().lastName(), "m", null, null, null);
+        Person mother = new Person(UUID.randomUUID().toString(), child.getAssociatedUsername(),
+                faker.name().firstName(), faker.name().lastName(), "f", null, null, father.getPersonID());
+        father.setSpouseID(mother.getPersonID());
 
-            Person child = childNode.getThisPerson();
-            Event[] events = childNode.getEvents();
-            int childBirth = events[0].year;
-            int maxBirth = childBirth - 13;
-            int minBirth = childBirth - 50;
-            
-            int fatherBirth = faker.number().numberBetween(minBirth,maxBirth);
-            int motherBirth = faker.number().numberBetween(minBirth,maxBirth);
-            int fatherDeath = faker.number().numberBetween(childBirth, fatherBirth + 120);
-            int motherDeath = faker.number().numberBetween(childBirth, motherBirth + 120);
-            
-            int minMarriage = Math.max(fatherBirth + 13, motherBirth + 13);
-            int maxMarriage = childBirth - 1;
-            int marriageYear = faker.number().numberBetween(minMarriage, maxMarriage);
-            String marriageCountry = faker.address().country();
-            String marriageCity = faker.address().city();
-            float marriageLat = getRandomFloat(-90, 90);
-            float marriageLong = getRandomFloat(-180, 180);
+        //Populate birth and death events
+        Event[] events = childNode.getEvents();
+        int childBirth = events[0].year;
+        Event[] fatherEvents = new Event[3];
+        Event[] motherEvents = new Event[3];
+        generateBirthDeathEvents(fatherEvents, childBirth, child.getAssociatedUsername(), father.personID);
+        generateBirthDeathEvents(motherEvents, childBirth, child.getAssociatedUsername(), mother.personID);
 
-            Person father = new Person(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    faker.name().firstName(), faker.name().lastName(), "m", null, null, null);
-            Person mother = new Person(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    faker.name().firstName(), faker.name().lastName(), "f", null, null, father.getPersonID());
-            father.setSpouseID(mother.getPersonID());
-            Event[] fatherEvents = new Event[3];
+        //Populate marriage event
+        int minMarriage = Math.max(
+                fatherEvents[0].year + 13, motherEvents[0].year + 13);
+        int maxMarriage = childBirth;
+        int marriageYear = faker.number().numberBetween(minMarriage, maxMarriage);
+        Location marriageLoc = getRandomLocation();
 
-            fatherEvents[0] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    father.getPersonID(), getRandomFloat(-90, 90), getRandomFloat(-180, 180),
-                    faker.address().country(), faker.address().city(), "Birth", fatherBirth);
-            fatherEvents[1] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    father.getPersonID(), marriageLat, marriageLong, marriageCountry,
-                    marriageCity, "Marriage", marriageYear);
-            fatherEvents[2] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    father.getPersonID(), getRandomFloat(-90, 90), getRandomFloat(-180, 180),
-                    faker.address().country(), faker.address().city(), "Death", fatherDeath);
+        fatherEvents[1] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
+                father.getPersonID(), marriageLoc.latitude, marriageLoc.longitude,
+                marriageLoc.country,marriageLoc.city, "Marriage", marriageYear);
+        motherEvents[1] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
+                mother.getPersonID(), marriageLoc.latitude, marriageLoc.longitude,
+                marriageLoc.country, marriageLoc.city, "Marriage", marriageYear);
 
-            Event[] motherEvents = new Event[3];
-            motherEvents[0] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    mother.getPersonID(), getRandomFloat(-90, 90), getRandomFloat(-180, 180),
-                    faker.address().country(), faker.address().city(), "Birth", motherBirth);
-            motherEvents[1] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    mother.getPersonID(), marriageLat, marriageLong, marriageCountry,
-                    marriageCity, "Marriage", marriageYear);
-            motherEvents[2] = new Event(UUID.randomUUID().toString(), child.getAssociatedUsername(),
-                    mother.getPersonID(), getRandomFloat(-90, 90), getRandomFloat(-180, 180),
-                    faker.address().country(), faker.address().city(), "Death", motherDeath);
+        //Create nodes and attach to child
+        FamilyTreeNode fatherNode = new FamilyTreeNode(father);
+        fatherNode.setEvents(fatherEvents);
+        FamilyTreeNode motherNode = new FamilyTreeNode(mother);
+        motherNode.setEvents(motherEvents);
 
-            FamilyTreeNode fatherNode = new FamilyTreeNode(father);
-            fatherNode.setEvents(fatherEvents);
-            FamilyTreeNode motherNode = new FamilyTreeNode(mother);
-            motherNode.setEvents(motherEvents);
-
-            child.setFatherID(father.getPersonID());
-            child.setMotherID(mother.getPersonID());
-            childNode.setFather(fatherNode);
-            childNode.setMother(motherNode);
-
+        child.setFatherID(father.getPersonID());
+        child.setMotherID(mother.getPersonID());
+        childNode.setFather(fatherNode);
+        childNode.setMother(motherNode);
     }
 
-    private float getRandomFloat(float min, float max) {
-        float randNum = min + new Random().nextFloat() * (max - min);
-        return randNum;
+    /**
+     * Creates birth and death events for a parent based on the child's birth year
+     * @param events Array of size 3 which contains, in this order, birth, marriage, and death events.
+     * @param childBirth The year the child was born
+     * @param userName The associated username for the event records
+     * @param uuid The personID of the parent
+     * @throws FileNotFoundException if the file of random locations cannot be found.
+     */
+    private void generateBirthDeathEvents(Event[] events, int childBirth, String userName,
+                                          String uuid) throws FileNotFoundException {
+        int maxBirth = childBirth - 13;
+        int minBirth = childBirth - 50;
+
+        int birthYear = faker.number().numberBetween(minBirth,maxBirth);
+        int deathYear = faker.number().numberBetween(childBirth, birthYear + 120);
+        Location birthLoc = getRandomLocation();
+        Location deathLoc = getRandomLocation();
+
+        events[0] = new Event(UUID.randomUUID().toString(), userName,
+                uuid, birthLoc.latitude, birthLoc.longitude,
+                birthLoc.country, birthLoc.city, "Birth", birthYear);
+        events[2] = new Event(UUID.randomUUID().toString(), userName,
+                uuid, deathLoc.latitude, deathLoc.longitude,
+                deathLoc.country, deathLoc.city, "Death", deathYear);
     }
 
-    private long yearToms(int year) {
-        return year * 365 * 24 * 60 * 60 * 1000L;
+    /**
+     * Retrieves a random location from the list of locations
+     * @return
+     * @throws FileNotFoundException if the file containing the list cannot be found.
+     */
+    private Location getRandomLocation() throws FileNotFoundException {
+        JsonReader jsonReader = new JsonReader(new FileReader("Resources/familymapserver/json/locations.json"));
+        LocationList locations = (new Gson().fromJson(jsonReader, LocationList.class));
+        int locationIndex = faker.number().numberBetween(0, locations.data.size() - 1);
+        return locations.data.get(locationIndex);
     }
 
     private class FamilyTreeNode {
@@ -240,5 +294,19 @@ public class FillService extends Service{
         public void setEvents(Event[] events) {
             this.events = events;
         }
+    }
+
+    private class LocationList {
+        public LocationList() {}
+        ArrayList<Location> data;
+    }
+
+    private class Location {
+        public Location() {}
+
+        public String country;
+        public String city;
+        public float latitude;
+        public float longitude;
     }
 }
