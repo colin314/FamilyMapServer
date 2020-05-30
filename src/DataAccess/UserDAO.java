@@ -76,7 +76,7 @@ public class UserDAO {
             throw new DataAccessException("Error encountered while clearing the Users table: " + e.getMessage());
         }
     }
-
+/*
     public void clearByUser(String userName) throws DataAccessException {
         String sql = "DELETE FROM Users WHERE Username = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -87,5 +87,5 @@ public class UserDAO {
             e.printStackTrace();
             throw new DataAccessException("Error encountered while clearing the Users Table: " + e.getMessage());
         }
-    }
+    }*/
 }

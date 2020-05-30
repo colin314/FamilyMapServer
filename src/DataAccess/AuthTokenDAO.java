@@ -30,7 +30,7 @@ public class AuthTokenDAO {
             stmt.setString(2, token.username);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DataAccessException("Error encountered while inserting user into the database");
+            throw new DataAccessException(e.getMessage());
         }
     }
 
@@ -51,6 +51,15 @@ public class AuthTokenDAO {
         catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException(e.getMessage());
+        } finally {
+            if(rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
         return user;
     }

@@ -1,0 +1,282 @@
+{
+  "data": [
+    {
+      "personID": "62CC127E-477E-45D1-BF6A-B63FB89F075B",
+      "associatedUsername": "colin314",
+      "firstName": "Colin",
+      "lastName": "Anderson",
+      "gender": "m",
+      "fatherID": "f4378e53-24d4-42e4-97ab-91cbf8c74e24",
+      "motherID": "e1a0ccc6-4f1e-4a0e-8e20-909af1d57c1e"
+    },
+    {
+      "personID": "f4378e53-24d4-42e4-97ab-91cbf8c74e24",
+      "associatedUsername": "colin314",
+      "firstName": "Hilda",
+      "lastName": "Towne",
+      "gender": "m",
+      "fatherID": "819c8edd-3a32-47b2-b404-fb456111ce8c",
+      "motherID": "4048a7d8-93f1-457d-9500-5bc590e93861",
+      "spouseID": "e1a0ccc6-4f1e-4a0e-8e20-909af1d57c1e"
+    },
+    {
+      "personID": "819c8edd-3a32-47b2-b404-fb456111ce8c",
+      "associatedUsername": "colin314",
+      "firstName": "Denita",
+      "lastName": "Pfeffer",
+      "gender": "m",
+      "fatherID": "5eb14bcb-938f-4862-b103-3e3d7a4e9eba",
+      "motherID": "45990374-43b6-4606-b8ed-aa786fb02cc2",
+      "spouseID": "4048a7d8-93f1-457d-9500-5bc590e93861"
+    },
+    {
+      "personID": "5eb14bcb-938f-4862-b103-3e3d7a4e9eba",
+      "associatedUsername": "colin314",
+      "firstName": "Dorothea",
+      "lastName": "Considine",
+      "gender": "m",
+      "fatherID": "d02f8ee2-fdf5-40f5-a531-5b55a1e6b8cb",
+      "motherID": "5460b7ed-d760-476b-802b-aab1f4d72fc5",
+      "spouseID": "45990374-43b6-4606-b8ed-aa786fb02cc2"
+    },
+    {
+      "personID": "d02f8ee2-fdf5-40f5-a531-5b55a1e6b8cb",
+      "associatedUsername": "colin314",
+      "firstName": "Leilani",
+      "lastName": "Denesik",
+      "gender": "m",
+      "spouseID": "5460b7ed-d760-476b-802b-aab1f4d72fc5"
+    },
+    {
+      "personID": "5460b7ed-d760-476b-802b-aab1f4d72fc5",
+      "associatedUsername": "colin314",
+      "firstName": "Carmelo",
+      "lastName": "Dickinson",
+      "gender": "f",
+      "spouseID": "d02f8ee2-fdf5-40f5-a531-5b55a1e6b8cb"
+    },
+    {
+      "personID": "45990374-43b6-4606-b8ed-aa786fb02cc2",
+      "associatedUsername": "colin314",
+      "firstName": "Rachelle",
+      "lastName": "Blanda",
+      "gender": "f",
+      "fatherID": "a2b5634d-d829-4a9a-80f7-7720e388a1a9",
+      "motherID": "11021fad-76dd-41a0-809b-c53d87752b9f",
+      "spouseID": "5eb14bcb-938f-4862-b103-3e3d7a4e9eba"
+    },
+    {
+      "personID": "a2b5634d-d829-4a9a-80f7-7720e388a1a9",
+      "associatedUsername": "colin314",
+      "firstName": "Malissa",
+      "lastName": "Flatley",
+      "gender": "m",
+      "spouseID": "11021fad-76dd-41a0-809b-c53d87752b9f"
+    },
+    {
+      "personID": "11021fad-76dd-41a0-809b-c53d87752b9f",
+      "associatedUsername": "colin314",
+      "firstName": "Refugio",
+      "lastName": "Leffler",
+      "gender": "f",
+      "spouseID": "a2b5634d-d829-4a9a-80f7-7720e388a1a9"
+    },
+    {
+      "personID": "4048a7d8-93f1-457d-9500-5bc590e93861",
+      "associatedUsername": "colin314",
+      "firstName": "Virgilio",
+      "lastName": "Sawayn",
+      "gender": "f",
+      "fatherID": "f2dbb628-a89b-43cf-985e-fef791a9e5d9",
+      "motherID": "21ef843a-0469-4f35-91aa-cebb31a8a107",
+      "spouseID": "819c8edd-3a32-47b2-b404-fb456111ce8c"
+    },
+    {
+      "personID": "f2dbb628-a89b-43cf-985e-fef791a9e5d9",
+      "associatedUsername": "colin314",
+      "firstName": "Allen",
+      "lastName": "Funk",
+      "gender": "m",
+      "fatherID": "f294884e-648e-43e7-8cba-62eaa34d95d6",
+      "motherID": "c2add4e5-cdfd-4c43-9bc8-7f119e90acee",
+      "spouseID": "21ef843a-0469-4f35-91aa-cebb31a8a107"
+    },
+    {
+      "personID": "f294884e-648e-43e7-8cba-62eaa34d95d6",
+      "associatedUsername": "colin314",
+      "firstName": "Johnathon",
+      "lastName": "Davis",
+      "gender": "m",
+      "spouseID": "c2add4e5-cdfd-4c43-9bc8-7f119e90acee"
+    },
+    {
+      "personID": "c2add4e5-cdfd-4c43-9bc8-7f119e90acee",
+      "associatedUsername": "colin314",
+      "firstName": "Eileen",
+      "lastName": "Rice",
+      "gender": "f",
+      "spouseID": "f294884e-648e-43e7-8cba-62eaa34d95d6"
+    },
+    {
+      "personID": "21ef843a-0469-4f35-91aa-cebb31a8a107",
+      "associatedUsername": "colin314",
+      "firstName": "Val",
+      "lastName": "MacGyver",
+      "gender": "f",
+      "fatherID": "b771affe-6df1-44dc-96aa-3c84c797c128",
+      "motherID": "20999924-ddea-4bc1-b8d4-ef8b362e54cc",
+      "spouseID": "f2dbb628-a89b-43cf-985e-fef791a9e5d9"
+    },
+    {
+      "personID": "b771affe-6df1-44dc-96aa-3c84c797c128",
+      "associatedUsername": "colin314",
+      "firstName": "Brad",
+      "lastName": "VonRueden",
+      "gender": "m",
+      "spouseID": "20999924-ddea-4bc1-b8d4-ef8b362e54cc"
+    },
+    {
+      "personID": "20999924-ddea-4bc1-b8d4-ef8b362e54cc",
+      "associatedUsername": "colin314",
+      "firstName": "Joaquin",
+      "lastName": "Runolfsdottir",
+      "gender": "f",
+      "spouseID": "b771affe-6df1-44dc-96aa-3c84c797c128"
+    },
+    {
+      "personID": "e1a0ccc6-4f1e-4a0e-8e20-909af1d57c1e",
+      "associatedUsername": "colin314",
+      "firstName": "Sachiko",
+      "lastName": "Schmidt",
+      "gender": "f",
+      "fatherID": "fb5a76fc-17ac-469d-a78e-c59c71ab7d8f",
+      "motherID": "67ec8710-e41c-4c59-8d05-c7c9a61d054f",
+      "spouseID": "f4378e53-24d4-42e4-97ab-91cbf8c74e24"
+    },
+    {
+      "personID": "fb5a76fc-17ac-469d-a78e-c59c71ab7d8f",
+      "associatedUsername": "colin314",
+      "firstName": "Yesenia",
+      "lastName": "Hauck",
+      "gender": "m",
+      "fatherID": "abe10663-64d5-4599-931e-88ac67a3949c",
+      "motherID": "f47c2f26-039a-4ee6-bfc9-4aed41b6d4e8",
+      "spouseID": "67ec8710-e41c-4c59-8d05-c7c9a61d054f"
+    },
+    {
+      "personID": "abe10663-64d5-4599-931e-88ac67a3949c",
+      "associatedUsername": "colin314",
+      "firstName": "Latasha",
+      "lastName": "Ortiz",
+      "gender": "m",
+      "fatherID": "10b87ace-94a6-4986-9937-0bac207e4f76",
+      "motherID": "8150b435-f213-4f5d-8008-bfa431d38149",
+      "spouseID": "f47c2f26-039a-4ee6-bfc9-4aed41b6d4e8"
+    },
+    {
+      "personID": "10b87ace-94a6-4986-9937-0bac207e4f76",
+      "associatedUsername": "colin314",
+      "firstName": "Ninfa",
+      "lastName": "Rohan",
+      "gender": "m",
+      "spouseID": "8150b435-f213-4f5d-8008-bfa431d38149"
+    },
+    {
+      "personID": "8150b435-f213-4f5d-8008-bfa431d38149",
+      "associatedUsername": "colin314",
+      "firstName": "Randal",
+      "lastName": "Cormier",
+      "gender": "f",
+      "spouseID": "10b87ace-94a6-4986-9937-0bac207e4f76"
+    },
+    {
+      "personID": "f47c2f26-039a-4ee6-bfc9-4aed41b6d4e8",
+      "associatedUsername": "colin314",
+      "firstName": "Zack",
+      "lastName": "Greenfelder",
+      "gender": "f",
+      "fatherID": "2e19124e-4098-4554-9ebe-9b7fb81ae894",
+      "motherID": "97df400d-4e92-47d1-be30-c130ae408a80",
+      "spouseID": "abe10663-64d5-4599-931e-88ac67a3949c"
+    },
+    {
+      "personID": "2e19124e-4098-4554-9ebe-9b7fb81ae894",
+      "associatedUsername": "colin314",
+      "firstName": "Efrain",
+      "lastName": "Johnson",
+      "gender": "m",
+      "spouseID": "97df400d-4e92-47d1-be30-c130ae408a80"
+    },
+    {
+      "personID": "97df400d-4e92-47d1-be30-c130ae408a80",
+      "associatedUsername": "colin314",
+      "firstName": "Consuela",
+      "lastName": "Wilderman",
+      "gender": "f",
+      "spouseID": "2e19124e-4098-4554-9ebe-9b7fb81ae894"
+    },
+    {
+      "personID": "67ec8710-e41c-4c59-8d05-c7c9a61d054f",
+      "associatedUsername": "colin314",
+      "firstName": "Artie",
+      "lastName": "Goldner",
+      "gender": "f",
+      "fatherID": "de40e11a-f8d9-4d4c-ae52-69bb47c4c382",
+      "motherID": "c40ac179-05c7-41fa-9267-d6b377d707d6",
+      "spouseID": "fb5a76fc-17ac-469d-a78e-c59c71ab7d8f"
+    },
+    {
+      "personID": "de40e11a-f8d9-4d4c-ae52-69bb47c4c382",
+      "associatedUsername": "colin314",
+      "firstName": "Janae",
+      "lastName": "Grant",
+      "gender": "m",
+      "fatherID": "1d1adccf-b603-41d0-9213-b59505df6b56",
+      "motherID": "ea089056-b070-451c-8418-d5e0e5342d71",
+      "spouseID": "c40ac179-05c7-41fa-9267-d6b377d707d6"
+    },
+    {
+      "personID": "1d1adccf-b603-41d0-9213-b59505df6b56",
+      "associatedUsername": "colin314",
+      "firstName": "Dino",
+      "lastName": "Fay",
+      "gender": "m",
+      "spouseID": "ea089056-b070-451c-8418-d5e0e5342d71"
+    },
+    {
+      "personID": "ea089056-b070-451c-8418-d5e0e5342d71",
+      "associatedUsername": "colin314",
+      "firstName": "Caleb",
+      "lastName": "Kovacek",
+      "gender": "f",
+      "spouseID": "1d1adccf-b603-41d0-9213-b59505df6b56"
+    },
+    {
+      "personID": "c40ac179-05c7-41fa-9267-d6b377d707d6",
+      "associatedUsername": "colin314",
+      "firstName": "Rayna",
+      "lastName": "Padberg",
+      "gender": "f",
+      "fatherID": "fc2f5933-100e-4117-b21d-f5fac6850635",
+      "motherID": "f24eae13-75a0-45fb-8375-3b59be44f5d7",
+      "spouseID": "de40e11a-f8d9-4d4c-ae52-69bb47c4c382"
+    },
+    {
+      "personID": "fc2f5933-100e-4117-b21d-f5fac6850635",
+      "associatedUsername": "colin314",
+      "firstName": "Janis",
+      "lastName": "Hamill",
+      "gender": "m",
+      "spouseID": "f24eae13-75a0-45fb-8375-3b59be44f5d7"
+    },
+    {
+      "personID": "f24eae13-75a0-45fb-8375-3b59be44f5d7",
+      "associatedUsername": "colin314",
+      "firstName": "Romelia",
+      "lastName": "Weimann",
+      "gender": "f",
+      "spouseID": "fc2f5933-100e-4117-b21d-f5fac6850635"
+    }
+  ],
+  "success": true
+}

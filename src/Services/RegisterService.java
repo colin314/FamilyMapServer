@@ -72,7 +72,11 @@ public class RegisterService extends Service {
         }
         catch (DataAccessException ex) {
             closeConnection(false);
-            throw new FamilyMapException(ex.getMessage());
+            if (ex.getMessage().contains("Violation of UNIQUE KEY")) {
+                throw new FamilyMapException("Username already exists. Cannot register new user under that username.");
+            } else {
+                throw new FamilyMapException(ex.getMessage());
+            }
         }
 
         fillService.fillDatabase(newUser.getUserName());

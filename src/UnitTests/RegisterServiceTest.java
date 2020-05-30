@@ -80,4 +80,20 @@ public class RegisterServiceTest {
         Assertions.assertNotNull(user);
         Assertions.assertTrue(user.equals("neilO"));
     }
+
+    @Test
+    @DisplayName("Register existing user fails")
+    void registerUser_DulpicateUsername() {
+        RegisterRequest request = new RegisterRequest("colin314", "password", "neil@noanderson.com",
+                "Neil", "Anderson", "m");
+
+        try{
+            RegisterService service = new RegisterService(conn);
+            Assertions.assertThrows(FamilyMapException.class, () -> service.registerUser(request));
+            service.registerUser(request);
+        }
+        catch (FamilyMapException ex) {
+            Assertions.assertEquals("Username already exists. Cannot register new user under that username.", ex.getMessage());
+        }
+    }
 }

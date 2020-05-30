@@ -73,4 +73,24 @@ public class LoadServiceTest {
         Assertions.assertNotNull(response);
         Assertions.assertEquals(expected, response.message);
     }
+
+    @Test
+    @DisplayName("Empty data loads successfully")
+    void loadData_NoData() {
+        User users[] = new User[0];
+        Person persons[] = new Person[0];
+        Event events[] = new Event[0];
+        LoadRequest request = new LoadRequest(users, persons, events);
+        Response response = null;
+        try {
+            LoadService service = new LoadService(conn);
+            response = service.loadData(request);
+        }
+        catch (FamilyMapException r) {
+            throw new AssertionError(r.getMessage());
+        }
+        String expected = "Successfully added 0 users, 0 persons, and 0 events to the database.";
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(expected, response.message);
+    }
 }
