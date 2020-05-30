@@ -16,6 +16,11 @@ public class UserDAO {
         this.conn = conn;
     }
 
+    /**
+     * Inserts the given user into the Users Table
+     * @param user the user to insert
+     * @throws DataAccessException if the username is a duplicate
+     */
     public void insert(User user) throws DataAccessException {
         //We can structure our string to be similar to a sql command, but if we insert question
         //marks we can change them later with help from the statement
@@ -36,6 +41,12 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Finds a user using their username
+     * @param userName the user name to look for
+     * @return The User in a user object, null if the username is not found.
+     * @throws DataAccessException if there is a problem executing the query.
+     */
     public User find(String userName) throws DataAccessException {
         User user;
         ResultSet rs = null;
@@ -67,6 +78,10 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Removes all users from the Users table
+     * @throws DataAccessException if there is a problem removing the users.
+     */
     public void clear() throws DataAccessException {
         String sql = "DELETE FROM Users";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -76,16 +91,4 @@ public class UserDAO {
             throw new DataAccessException("Error encountered while clearing the Users table: " + e.getMessage());
         }
     }
-/*
-    public void clearByUser(String userName) throws DataAccessException {
-        String sql = "DELETE FROM Users WHERE Username = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(0, userName);
-            stmt.execute();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            throw new DataAccessException("Error encountered while clearing the Users Table: " + e.getMessage());
-        }
-    }*/
 }

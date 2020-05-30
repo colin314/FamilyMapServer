@@ -9,7 +9,6 @@ import Services.UnauthorizedException;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import com.google.gson.*;
@@ -56,9 +55,6 @@ public class LoginHandler extends Handler implements HttpHandler {
         }
     }
 
-    /*
-        The readString method shows how to read a String from an InputStream.
-    */
     private String readString(InputStream is) throws IOException {
         StringBuilder sb = new StringBuilder();
         InputStreamReader sr = new InputStreamReader(is);

@@ -1,17 +1,12 @@
 package Handler;
 
 import Request.BadRequest;
-import Request.LoginRequest;
 import Result.*;
 import Services.EventService;
-import Services.LoginService;
-import Services.PersonService;
 import Services.UnauthorizedException;
-import com.sun.java.accessibility.util.EventID;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import com.google.gson.*;
@@ -67,19 +62,5 @@ public class EventHandler extends Handler implements HttpHandler {
         catch (BadRequest ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
-    }
-
-    /*
-        The readString method shows how to read a String from an InputStream.
-    */
-    private String readString(InputStream is) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        InputStreamReader sr = new InputStreamReader(is);
-        char[] buf = new char[1024];
-        int len;
-        while ((len = sr.read(buf)) > 0) {
-            sb.append(buf, 0, len);
-        }
-        return sb.toString();
     }
 }

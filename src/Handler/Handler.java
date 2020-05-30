@@ -3,10 +3,8 @@ package Handler;
 import Result.Response;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
-
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 
 public abstract class Handler {
     public Handler() {}

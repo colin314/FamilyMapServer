@@ -1,8 +1,6 @@
 package DataAccess;
 
-import Model.Event;
 import Model.Person;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,15 +15,16 @@ public class PersonDAO {
         this.conn = conn;
     }
 
+    /**
+     * Inserts a person into the Persons table
+     * @param person the person to insert.
+     * @throws DataAccessException if there is a problem inserting the person (such as the person_ID already existing in
+     * the table).
+     */
     public void insert(Person person) throws DataAccessException {
-        //We can structure our string to be similar to a sql command, but if we insert question
-        //marks we can change them later with help from the statement
         String sql = "INSERT INTO Persons (Person_ID, Username, First_Name, Last_Name, Gender, Father_ID, Mother_ID, Spouse_ID)" +
                 " VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            //Using the statements built-in set(type) functions we can pick the question mark we want
-            //to fill in and give it a proper value. The first argument corresponds to the first
-            //question mark found in our sql String
             stmt.setString(1, person.personID);
             stmt.setString(2, person.associatedUsername);
             stmt.setString(3, person.firstName);
@@ -41,6 +40,12 @@ public class PersonDAO {
         }
     }
 
+    /**
+     * Finds the Person in the database with the given PersonID
+     * @param personID PersonID of person being sought
+     * @return Person as a Person object, null if the ID doesn't correspond to a person.
+     * @throws DataAccessException if there is a problem executing the query.
+     */
     public Person find(String personID) throws DataAccessException {
         Person person;
         ResultSet rs = null;
@@ -65,11 +70,16 @@ public class PersonDAO {
                     e.printStackTrace();
                 }
             }
-
         }
         return null;
     }
 
+    /**
+     * Retrieves all of the persons associated with a given user
+     * @param userName user name
+     * @return An array list of the persons
+     * @throws DataAccessException if there is a problem executing the SQL query
+     */
     public ArrayList<Person> findByUser(String userName) throws DataAccessException {
         ArrayList<Person> persons = new ArrayList<>();
         ResultSet rs = null;
@@ -94,7 +104,6 @@ public class PersonDAO {
                     e.printStackTrace();
                 }
             }
-
         }
         return persons;
     }
@@ -114,6 +123,11 @@ public class PersonDAO {
         }
     }
 
+    /**
+     * Clears all persons associated with a specific user.
+     * @param userName the user name
+     * @throws DataAccessException if there is a problem encountered when deleting records.
+     */
     public void clearByUser(String userName) throws DataAccessException {
         String sql = "DELETE FROM Persons WHERE Username = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

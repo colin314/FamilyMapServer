@@ -1,10 +1,6 @@
 package DataAccess;
 
 import Model.AuthToken;
-import Model.Person;
-import Model.User;
-
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,15 +13,16 @@ public class AuthTokenDAO {
         this.conn = conn;
     }
 
+    /**
+     * Inserts the given token into the AuthTokens table
+     * @param token the token to insert
+     * @throws DataAccessException if there is a problem inserting the token (such as
+     * it being a duplicate token).
+     */
     public void insert(AuthToken token) throws DataAccessException {
-        //We can structure our string to be similar to a sql command, but if we insert question
-        //marks we can change them later with help from the statement
         String sql = "INSERT INTO AuthTokens (Token, Username)" +
                 "VALUES (?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            //            //Using the statements built-in set(type) functions we can pick the question mark we want
-            //            //to fill in and give it a proper value. The first argument corresponds to the first
-            //question mark found in our sql String
             stmt.setString(1, token.token);
             stmt.setString(2, token.username);
             stmt.executeUpdate();
@@ -34,6 +31,12 @@ public class AuthTokenDAO {
         }
     }
 
+    /**
+     * Returns the user associated with the given token (if they exist)
+     * @param authStr the token
+     * @return The user name of the user associated with the token, null otherwise.
+     * @throws DataAccessException if there is a problem executing the query.
+     */
     public String findUser(String authStr) throws DataAccessException {
         String user = null;
         ResultSet rs = null;
@@ -59,11 +62,14 @@ public class AuthTokenDAO {
                     e.printStackTrace();
                 }
             }
-
         }
         return user;
     }
 
+    /**
+     * Clears all tokens from the AuthTokens table
+     * @throws DataAccessException if there is a problem clearing the tokens.
+     */
     public void clear() throws DataAccessException {
         String sql = "DELETE FROM AuthTokens";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

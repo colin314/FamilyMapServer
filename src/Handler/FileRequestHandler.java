@@ -2,7 +2,6 @@ package Handler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,16 +36,8 @@ public class FileRequestHandler implements HttpHandler {
             }
             exchange.getResponseBody().close();
         } catch (IOException e) {
-            // Some kind of internal error has occurred inside the server (not the
-            // client's fault), so we return an "internal server error" status code
-            // to the client.
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-
-            // We are not sending a response body, so close the response body
-            // output stream, indicating that the response is complete.
             exchange.getResponseBody().close();
-
-            // Display/log the stack trace
             e.printStackTrace();
         }
     }

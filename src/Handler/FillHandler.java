@@ -57,18 +57,4 @@ public class FillHandler extends Handler implements HttpHandler {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
     }
-
-    /*
-        The readString method shows how to read a String from an InputStream.
-    */
-    private String readString(InputStream is) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        InputStreamReader sr = new InputStreamReader(is);
-        char[] buf = new char[1024];
-        int len;
-        while ((len = sr.read(buf)) > 0) {
-            sb.append(buf, 0, len);
-        }
-        return sb.toString();
-    }
 }
