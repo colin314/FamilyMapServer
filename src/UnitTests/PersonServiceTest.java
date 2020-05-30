@@ -5,6 +5,7 @@ import Model.*;
 import Result.FamilyMapException;
 import Result.PersonIDResponse;
 import Result.PersonResponse;
+import Services.EventService;
 import Services.PersonService;
 import Services.UnauthorizedException;
 import org.junit.jupiter.api.*;
@@ -52,10 +53,11 @@ public class PersonServiceTest {
     @Test
     @DisplayName("Person found with valid ID and AuthToken")
     void findPerson_PersonFound() {
-        String personID = "27E87F19-380A-4213-A38F-13E2529FF114";
-        String authToken = "C0EB66BB-8FF9-4131-BEF9-6090100DC1C2";
+        String personID = "819c8edd-3a32-47b2-b404-fb456111ce8c";
+        String authToken = "c0eb66bb-8ff9-4131-bef9-6090100dc1c2";
         PersonIDResponse expected = new PersonIDResponse(new Person(personID, "colin314",
-                "Neil", "Anderson", "m", null, null, null));
+                "Denita", "Pfeffer", "m", "5eb14bcb-938f-4862-b103-3e3d7a4e9eba",
+                "45990374-43b6-4606-b8ed-aa786fb02cc2", "4048a7d8-93f1-457d-9500-5bc590e93861"));
         PersonIDResponse response;
         try {
             PersonService service = new PersonService(conn);
@@ -68,6 +70,19 @@ public class PersonServiceTest {
             throw new AssertionError(ex.getMessage());
         }
         Assertions.assertTrue(response.personID.equalsIgnoreCase(personID));
+    }
+    @Test
+    @DisplayName("Person, user mismatch, returns bad response")
+    void findEvent_BadUser() {
+        String eventID = "21E6B772-74F1-43D8-B7D3-9306F08CC838";
+        String authToken = "c0eb66bb-8ff9-4131-bef9-6090100dc1c2";
+        try {
+            PersonService service = new PersonService(conn);
+            Assertions.assertThrows(FamilyMapException.class, () -> service.getPersonByID(eventID, authToken));
+        }
+        catch (FamilyMapException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
     }
     @Test
     @DisplayName("All Persons found for user")
@@ -84,6 +99,19 @@ public class PersonServiceTest {
         catch (UnauthorizedException ex) {
             throw new AssertionError(ex.getMessage());
         }
-        Assertions.assertEquals(3, response.data.size());
+        Assertions.assertEquals(31, response.data.size());
+    }
+    @Test
+    @DisplayName("Find all persons, invalid authToken fails")
+    void findPersonByUser_InvalidAuthToken() {
+        String authToken = "bad token";
+        PersonResponse response;
+        try {
+            PersonService service = new PersonService(conn);
+            Assertions.assertThrows(UnauthorizedException.class, () -> service.getPersonByUsername(authToken));
+        }
+        catch (FamilyMapException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
     }
 }

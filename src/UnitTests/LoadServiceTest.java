@@ -69,7 +69,7 @@ public class LoadServiceTest {
         catch (FamilyMapException r) {
             throw new AssertionError(r.getMessage());
         }
-        String expected = "Successfully added 2 persons and 1 events to the database.";
+        String expected = "Successfully added 1 users, 2 persons, and 1 events to the database.";
         Assertions.assertNotNull(response);
         Assertions.assertEquals(expected, response.message);
     }

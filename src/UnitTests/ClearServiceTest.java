@@ -2,6 +2,7 @@ package UnitTests;
 
 import DataAccess.*;
 import Result.FamilyMapException;
+import Result.Response;
 import Services.ClearService;
 import org.junit.jupiter.api.*;
 import java.sql.*;
@@ -42,23 +43,23 @@ public class ClearServiceTest {
             e.printStackTrace();
             throw e;
         }
-
     }
 
     @Test
     @DisplayName("Database successfully cleared.")
     void ClearSuccessful() {
-        ClearService service = null;
-        FamilyMapException actual = null;
-
         try {
-            service = new ClearService(conn);
-            ClearService finalService = service;
-            Assertions.assertDoesNotThrow(() -> finalService.clearDatabase());
+            ClearService service = new ClearService(conn);
+            Response actual = null;
+            actual = service.clearDatabase();
+            Assertions.assertNotNull(actual);
+            Assertions.assertTrue(actual.success);
+            Assertions.assertEquals("Clear succeeded.", actual.message);
         }
         catch (FamilyMapException ex) {
             throw new AssertionError(ex.getMessage());
         }
+        //Verify that stuff was actually deleted
         try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Users")){
             ResultSet rs = stmt.executeQuery();
             int rowCount = 0;

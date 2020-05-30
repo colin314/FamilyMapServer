@@ -49,13 +49,56 @@ public class FillServiceTest {
     void fill_Success() {
         try {
             FillService service = new FillService(conn);
-            var response = service.fillDatabase("colin314", 2);
-            String expected = "Successfully added 5 persons and 15 events to the database.";
+            var response = service.fillDatabase("colin314", 3);
+            String expected = "Successfully added 15 persons and 45 events to the database.";
             Assertions.assertNotNull(response);
             Assertions.assertEquals(expected, response.message);
         }
         catch (FamilyMapException r) {
             throw new AssertionError(r.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Fill fails for bad user")
+    void fill_BadUser() {
+        FillService service = new FillService(conn);
+        Assertions.assertThrows(FamilyMapException.class, () -> service.fillDatabase("badUser", 4));
+        try {
+            service.fillDatabase("badUser", 3);
+        }
+        catch (FamilyMapException ex) {
+            Assertions.assertEquals("Error executing fill, the given username does not correspond to a known username. Given username: badUser",
+                    ex.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Fill runs successfully with default value")
+    void fillDefault_Success() {
+        try {
+            FillService service = new FillService(conn);
+            var response = service.fillDatabase("colin314");
+            String expected = "Successfully added 31 persons and 93 events to the database.";
+            Assertions.assertNotNull(response);
+            Assertions.assertEquals(expected, response.message);
+        }
+        catch (FamilyMapException r) {
+            throw new AssertionError(r.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Fill fails for bad user and default value")
+    void fillDefault_BadUser() {
+        FillService service = new FillService(conn);
+        Assertions.assertThrows(FamilyMapException.class, () -> service.fillDatabase("badUser"));
+        try {
+            service.fillDatabase("badUser");
+        }
+        catch (FamilyMapException ex) {
+            Assertions.assertEquals("Error executing fill, the given username does not correspond to a known username. Given username: badUser",
+                    ex.getMessage());
         }
     }
 }

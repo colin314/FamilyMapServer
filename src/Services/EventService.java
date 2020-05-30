@@ -59,6 +59,9 @@ public class EventService extends AuthService{
         EventIDResponse response = null;
         try {
             Event event = eventDAO.find(eventID);
+            if (event == null) {
+                throw new FamilyMapException("No event found for the given EventID");
+            }
             response = new EventIDResponse(event);
         }
         catch (DataAccessException ex) {
@@ -67,7 +70,7 @@ public class EventService extends AuthService{
         }
         closeConnection(true);
         if (!response.associatedUsername.equals(userName)) {
-            throw new UnauthorizedException("Requested event does not belong to this user");
+            throw new FamilyMapException("Requested event does not belong to this user");
         }
         return response;
     }

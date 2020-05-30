@@ -65,7 +65,7 @@ public class PersonService extends AuthService {
         }
         closeConnection(true);
         if (!response.associatedUsername.equalsIgnoreCase(userName)) {
-            throw new UnauthorizedException("Requested person does not belong to this user");
+            throw new FamilyMapException("Requested person does not belong to this user");
         }
         return response;
     }

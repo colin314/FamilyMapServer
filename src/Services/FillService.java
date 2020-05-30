@@ -9,12 +9,10 @@ import Result.Response;
 import com.github.javafaker.Faker;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.UUID;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 /**
@@ -88,7 +86,7 @@ public class FillService extends Service{
             User user = userDAO.find(username);
             if (user == null) {
                 closeConnection(false);
-                throw new FamilyMapException("Error executing fill, the given username does not correspond" +
+                throw new FamilyMapException("Error executing fill, the given username does not correspond " +
                         String.format("to a known username. Given username: %s", username));
             }
             personDAO.clearByUser(username);

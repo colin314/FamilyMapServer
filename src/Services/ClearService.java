@@ -48,9 +48,7 @@ public class ClearService extends Service {
             authTokenDAO.clear();
         }
         catch (DataAccessException ex) {
-            if (db != null) {
-                closeConnection(false);
-            }
+            closeConnection(false);
             throw new FamilyMapException(ex.getMessage());
         }
         closeConnection(true);
