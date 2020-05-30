@@ -64,6 +64,8 @@ DECLARE @u7 nvarchar(max)
 SET @u7 = '44b4c8e6-8261-42c0-8779-c646433b281a'
 DECLARE @u8 nvarchar(max)
 SET @u8 = 'ffae4e6f-bae6-4f03-91c2-f8fbdd780c0c'
+DECLARE @u9 nvarchar(max)
+SET @u9 = '583db356-0e08-4e64-bee4-ed527b7c19e4'
 
 INSERT INTO Users (Username, Person_ID, User_Password, Email)
 VALUES ('colin314', @u1, 'password', 'c.anderson1830@gmail.com'),

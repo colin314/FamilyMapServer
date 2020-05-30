@@ -21,12 +21,12 @@ public class EventDAO {
      * the table).
      */
     public void insert(Event event) throws DataAccessException {
-        String sql = "INSERT INTO Events (Event_ID, Username, Event_ID, Latitude, Longitude, " +
+        String sql = "INSERT INTO Events (Event_ID, Username, Person_ID, Latitude, Longitude, " +
                 "Country, City, EventType, Event_Year) VALUES(?,?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, event.eventID);
             stmt.setString(2, event.associatedUsername);
-            stmt.setString(3, event.eventID);
+            stmt.setString(3, event.personID);
             stmt.setDouble(4, event.latitude);
             stmt.setDouble(5, event.longitude);
             stmt.setString(6, event.country);
@@ -54,7 +54,7 @@ public class EventDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 events.add(new Event(rs.getString("Event_ID"), rs.getString("Username"),
-                        rs.getString("Event_ID"), rs.getFloat("Latitude"), rs.getFloat("Longitude"),
+                        rs.getString("Person_ID"), rs.getFloat("Latitude"), rs.getFloat("Longitude"),
                         rs.getString("Country"), rs.getString("City"), rs.getString("EventType"),
                         rs.getInt("Event_Year")));
             }
@@ -88,7 +88,7 @@ public class EventDAO {
             rs = stmt.executeQuery();
             if (rs.next()) {
                 event = new Event(rs.getString("Event_ID"), rs.getString("Username"),
-                        rs.getString("Event_ID"), rs.getFloat("Latitude"), rs.getFloat("Longitude"),
+                        rs.getString("Person_ID"), rs.getFloat("Latitude"), rs.getFloat("Longitude"),
                         rs.getString("Country"), rs.getString("City"), rs.getString("EventType"),
                         rs.getInt("Event_Year"));
                 return event;

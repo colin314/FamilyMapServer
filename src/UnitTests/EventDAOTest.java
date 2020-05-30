@@ -72,7 +72,17 @@ public class EventDAOTest {
         Assertions.assertDoesNotThrow(() -> {
             ResultSet rs = conn.prepareStatement("SELECT * FROM Events WHERE Event_ID = 'NewID'")
                     .executeQuery();
-            Assertions.assertTrue(rs.next(), "The event was not actually inserted into the database");
+            if (rs.next()) {
+                Event event = new Event(rs.getString("Event_ID"), rs.getString("Username"),
+                        rs.getString("Person_ID"), rs.getFloat("Latitude"), rs.getFloat("Longitude"),
+                        rs.getString("Country"), rs.getString("City"), rs.getString("EventType"),
+                        rs.getInt("Event_Year"));
+                Assertions.assertEquals(newEvent, event, "The event actually inserted into the database does not match " +
+                        "what was supposed to be inserted.");
+            }
+            else {
+                throw new AssertionError("The record that was supposed to be inserted was not found in the database.");
+            }
         });
     }
 

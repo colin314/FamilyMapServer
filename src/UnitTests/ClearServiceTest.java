@@ -109,4 +109,23 @@ public class ClearServiceTest {
             throw new AssertionError("Error thrown when attempting to verify clear statement.");
         }
     }
+
+    @Test
+    @DisplayName("Clear on a closed connection fails")
+    void clear_ClosedConnection() {
+        try {
+            ClearService clearService = new ClearService(conn);
+            conn.close();
+            Assertions.assertThrows(FamilyMapException.class, () -> clearService.clearDatabase());
+            conn = DriverManager.getConnection(CONNECTION_URL);
+            conn.setAutoCommit(false);
+        }
+        catch (FamilyMapException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
+        catch (SQLException ex) {
+            throw new AssertionError(ex.getMessage());
+        }
+
+    }
 }
