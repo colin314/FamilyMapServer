@@ -1,13 +1,11 @@
 package Services;
 
 import DataAccess.DataAccessException;
-import DataAccess.Database;
 import DataAccess.EventDAO;
 import Model.Event;
 import Result.FamilyMapException;
 import Result.EventIDResponse;
 import Result.EventResponse;
-
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -19,8 +17,7 @@ public class EventService extends AuthService{
         super();
         try {
             eventDAO = new EventDAO(db.getConnection());
-        }
-        catch (DataAccessException ex) {
+        } catch (DataAccessException ex) {
             throw new FamilyMapException(ex.getMessage());
         }
     }
@@ -54,8 +51,6 @@ public class EventService extends AuthService{
             closeConnection(false);
             throw new UnauthorizedException("Invalid auth token");
         }
-
-        //Get Event
         EventIDResponse response = null;
         try {
             Event event = eventDAO.find(eventID);

@@ -78,9 +78,7 @@ public class RegisterService extends Service {
                 throw new FamilyMapException(ex.getMessage());
             }
         }
-
         fillService.fillDatabase(newUser.getUserName());
-
         AuthToken token = new AuthToken(UUID.randomUUID().toString(), newUser.getUserName());
         try {
             tokenDAO.insert(token);

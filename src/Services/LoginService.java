@@ -8,7 +8,6 @@ import Model.User;
 import Request.LoginRequest;
 import Result.FamilyMapException;
 import Result.UserResponse;
-
 import java.sql.Connection;
 import java.util.UUID;
 
@@ -43,6 +42,8 @@ public class LoginService extends Service {
      * @return A UserResponse object with the authToken for the current log-in session.
      * @exception FamilyMapException if username or password is missing or invalid
      * @exception FamilyMapException if there was an Internal server error.
+     * @exception UnauthorizedException if the user name doesn't correspond to a known user name.
+     * @exception UnauthorizedException if the user name and password don't match.
      */
     public UserResponse loginUser(LoginRequest request) throws FamilyMapException, UnauthorizedException {
         UserResponse response = null;

@@ -1,11 +1,9 @@
 package Services;
 
 import DataAccess.DataAccessException;
-import DataAccess.Database;
 import DataAccess.PersonDAO;
 import Model.Person;
 import Result.*;
-
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -76,6 +74,7 @@ public class PersonService extends AuthService {
      * @return A PersonResponse object containing Person objects that correspond to the given authToken.
      * @exception FamilyMapException if the auth token is invalid.
      * @exception FamilyMapException if there is an Internal server error.
+     * @exception  UnauthorizedException if the authToken is invalid
      */
     public PersonResponse getPersonByUsername(String authToken) throws FamilyMapException, UnauthorizedException {
         String userName = null;
