@@ -59,7 +59,7 @@ public class EventHandler extends Handler implements HttpHandler {
             e.printStackTrace();
         }
         catch (FamilyMapException ex) {
-            writeError(exchange, ex, HttpURLConnection.HTTP_INTERNAL_ERROR);
+            writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
         catch (UnauthorizedException ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);

@@ -1,12 +1,9 @@
 package Handler;
 
 import Request.BadRequest;
-import Request.LoginRequest;
 import Result.FamilyMapException;
 import Result.PersonIDResponse;
 import Result.PersonResponse;
-import Result.UserResponse;
-import Services.LoginService;
 import Services.PersonService;
 import Services.UnauthorizedException;
 import com.sun.net.httpserver.Headers;
@@ -62,7 +59,7 @@ public class PersonHandler extends Handler implements HttpHandler {
             e.printStackTrace();
         }
         catch (FamilyMapException ex) {
-            writeError(exchange, ex, HttpURLConnection.HTTP_INTERNAL_ERROR);
+            writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
         catch (UnauthorizedException ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
@@ -70,19 +67,5 @@ public class PersonHandler extends Handler implements HttpHandler {
         catch (BadRequest ex) {
             writeError(exchange, ex, HttpURLConnection.HTTP_BAD_REQUEST);
         }
-    }
-
-    /*
-        The readString method shows how to read a String from an InputStream.
-    */
-    private String readString(InputStream is) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        InputStreamReader sr = new InputStreamReader(is);
-        char[] buf = new char[1024];
-        int len;
-        while ((len = sr.read(buf)) > 0) {
-            sb.append(buf, 0, len);
-        }
-        return sb.toString();
     }
 }
