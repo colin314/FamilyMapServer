@@ -115,14 +115,14 @@ public class FillService extends Service{
             fillDatabase(rootNode.getMother());
         }
         catch (DataAccessException ex) {
+            closeConnection(false);
             throw new FamilyMapException(ex.getMessage());
         }
         catch (FileNotFoundException ex) {
+            closeConnection(false);
             throw new FamilyMapException(ex.getMessage());
         }
-        finally {
-            closeConnection(false);
-        }
+
         int personCount = (int)Math.pow(2.0D, (generations + 1)) - 1;
         int evenCount = personCount * 3;
         String msg = String.format("Successfully added %d persons and %d events to the database.",personCount, evenCount);
@@ -249,7 +249,7 @@ public class FillService extends Service{
 
     /**
      * Retrieves a random location from the list of locations
-     * @return
+     * @return A random location object
      * @throws FileNotFoundException if the file containing the list cannot be found.
      */
     private Location getRandomLocation() throws FileNotFoundException {
