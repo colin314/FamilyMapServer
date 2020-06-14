@@ -185,6 +185,10 @@ public class FillService extends Service{
                 faker.name().firstName(), faker.name().lastName(), "f", null, null, father.getPersonID());
         father.setSpouseID(mother.getPersonID());
 
+        if (!father.getSpouseID().equals(mother.getPersonID()) || !mother.getSpouseID().equals(father.getPersonID())) {
+            System.out.println("Unequal");
+        }
+
         //Populate birth and death events
         Event[] events = childNode.getEvents();
         int childBirth = events[0].year;

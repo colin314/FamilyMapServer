@@ -107,7 +107,7 @@ public class PersonDAOTest {
         Assertions.assertEquals(expectedPerson.gender, actualPerson.gender, "The genders did not match");
         Assertions.assertEquals(expectedPerson.fatherID, actualPerson.fatherID, "The Father_IDs did not match");
         Assertions.assertEquals(expectedPerson.motherID, actualPerson.motherID, "The Mother_IDs did not match");
-        Assertions.assertEquals(expectedPerson.spouseID, actualPerson.spouseID, "The Spouse_IDs did not match");
+        Assertions.assertEquals(expectedPerson.getSpouseID(), actualPerson.getSpouseID(), "The Spouse_IDs did not match");
     }
 
     @Test

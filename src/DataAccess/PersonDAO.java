@@ -32,7 +32,7 @@ public class PersonDAO {
             stmt.setString(5, person.gender);
             stmt.setString(6, person.fatherID);
             stmt.setString(7, person.motherID);
-            stmt.setString(8, person.spouseID);
+            stmt.setString(8, person.getSpouseID());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

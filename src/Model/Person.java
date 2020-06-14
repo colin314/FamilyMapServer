@@ -109,7 +109,7 @@ public class Person {
     /**
      * Person ID of person's spouse (possibly null)
      */
-    public String spouseID;
+    private String spouseID;
 
 
     @Override
